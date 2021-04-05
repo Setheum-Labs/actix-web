@@ -140,7 +140,7 @@
     <span class="ident">apply_mask_fallback</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">prefix</span>, <span class="ident">mask</span>);
     <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="ident">prefix</span>.<span class="ident">len</span>() <span class="op">&amp;</span> <span class="number">3</span>;
     <span class="kw">let</span> <span class="ident">mask_u32</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">head</span> <span class="op">&gt;</span> <span class="number">0</span> {
-        <span class="kw">if</span> <span class="macro">cfg</span><span class="macro">!</span>(<span class="ident">target_endian</span> <span class="op">=</span> <span class="string">&quot;big&quot;</span>) {
+        <span class="kw">if</span> <span class="macro">cfg!</span>(<span class="ident">target_endian</span> <span class="op">=</span> <span class="string">&quot;big&quot;</span>) {
             <span class="ident">mask_u32</span>.<span class="ident">rotate_left</span>(<span class="number">8</span> <span class="op">*</span> <span class="ident">head</span> <span class="kw">as</span> <span class="ident">u32</span>)
         } <span class="kw">else</span> {
             <span class="ident">mask_u32</span>.<span class="ident">rotate_right</span>(<span class="number">8</span> <span class="op">*</span> <span class="ident">head</span> <span class="kw">as</span> <span class="ident">u32</span>)
@@ -164,7 +164,7 @@
     <span class="kw">fn</span> <span class="ident">test_apply_mask_legacy</span>() {
         <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> [<span class="number">0x6d</span>, <span class="number">0xb6</span>, <span class="number">0xb2</span>, <span class="number">0x80</span>];
 
-        <span class="kw">let</span> <span class="ident">unmasked</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">unmasked</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="number">0xf3</span>, <span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x80</span>, <span class="number">0x81</span>, <span class="number">0x82</span>, <span class="number">0xff</span>, <span class="number">0xfe</span>, <span class="number">0x00</span>, <span class="number">0x17</span>,
             <span class="number">0x74</span>, <span class="number">0xf9</span>, <span class="number">0x12</span>, <span class="number">0x03</span>,
         ];
@@ -177,7 +177,7 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">masked_fast</span> <span class="op">=</span> <span class="ident">unmasked</span>.<span class="ident">clone</span>();
             <span class="ident">apply_mask</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">masked_fast</span>, <span class="ident">mask</span>);
 
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">masked</span>, <span class="ident">masked_fast</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">masked</span>, <span class="ident">masked_fast</span>);
         }
 
         <span class="comment">// Check masking without alignment.</span>
@@ -188,14 +188,14 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">masked_fast</span> <span class="op">=</span> <span class="ident">unmasked</span>;
             <span class="ident">apply_mask</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">masked_fast</span>[<span class="number">1</span>..], <span class="ident">mask</span>);
 
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">masked</span>, <span class="ident">masked_fast</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">masked</span>, <span class="ident">masked_fast</span>);
         }
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_apply_mask</span>() {
         <span class="kw">let</span> <span class="ident">mask</span> <span class="op">=</span> [<span class="number">0x6d</span>, <span class="number">0xb6</span>, <span class="number">0xb2</span>, <span class="number">0x80</span>];
-        <span class="kw">let</span> <span class="ident">unmasked</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">unmasked</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="number">0xf3</span>, <span class="number">0x00</span>, <span class="number">0x01</span>, <span class="number">0x02</span>, <span class="number">0x03</span>, <span class="number">0x80</span>, <span class="number">0x81</span>, <span class="number">0x82</span>, <span class="number">0xff</span>, <span class="number">0xfe</span>, <span class="number">0x00</span>, <span class="number">0x17</span>,
             <span class="number">0x74</span>, <span class="number">0xf9</span>, <span class="number">0x12</span>, <span class="number">0x03</span>,
         ];
@@ -213,7 +213,7 @@
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">masked_fast</span> <span class="op">=</span> <span class="ident">unmasked</span>.<span class="ident">to_vec</span>();
                 <span class="ident">apply_mask_fast32</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">masked_fast</span>[<span class="ident">off</span>..], <span class="ident">mask</span>);
 
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">masked</span>, <span class="ident">masked_fast</span>);
+                <span class="macro">assert_eq!</span>(<span class="ident">masked</span>, <span class="ident">masked_fast</span>);
             }
         }
     }

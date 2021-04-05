@@ -413,7 +413,7 @@
                     }
                 }
 
-                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">futures_core</span>::<span class="macro">ready</span><span class="macro">!</span>(<span class="ident">send</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>)).<span class="ident">map</span>(<span class="op">|</span><span class="ident">res</span><span class="op">|</span> {
+                <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">futures_core</span>::<span class="macro">ready!</span>(<span class="ident">send</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>)).<span class="ident">map</span>(<span class="op">|</span><span class="ident">res</span><span class="op">|</span> {
                     <span class="ident">res</span>.<span class="ident">into_client_response</span>().<span class="ident">_timeout</span>(<span class="ident">delay</span>.<span class="ident">take</span>()).<span class="ident">map_body</span>(
                         <span class="op">|</span><span class="ident">head</span>, <span class="ident">payload</span><span class="op">|</span> {
                             <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">response_decompress</span> {
@@ -432,7 +432,7 @@
             }
             <span class="ident">SendClientRequest</span>::<span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">e</span>.<span class="ident">take</span>() {
                 <span class="prelude-val">Some</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Attempting to call completed future&quot;</span>),
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;Attempting to call completed future&quot;</span>),
             },
         }
     }
@@ -457,7 +457,7 @@
             }
             <span class="ident">SendClientRequest</span>::<span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">e</span>.<span class="ident">take</span>() {
                 <span class="prelude-val">Some</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)),
-                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Attempting to call completed future&quot;</span>),
+                <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;Attempting to call completed future&quot;</span>),
             },
         }
     }

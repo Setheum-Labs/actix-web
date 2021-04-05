@@ -77,7 +77,7 @@
     <span class="doccomment">/// assert!(!BodySize::Stream.is_eof());</span>
     <span class="doccomment">/// ```</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_eof</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="macro">matches</span><span class="macro">!</span>(<span class="self">self</span>, <span class="ident">BodySize</span>::<span class="prelude-val">None</span> <span class="op">|</span> <span class="ident">BodySize</span>::<span class="ident">Empty</span> <span class="op">|</span> <span class="ident">BodySize</span>::<span class="ident">Sized</span>(<span class="number">0</span>))
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident">BodySize</span>::<span class="prelude-val">None</span> <span class="op">|</span> <span class="ident">BodySize</span>::<span class="ident">Empty</span> <span class="op">|</span> <span class="ident">BodySize</span>::<span class="ident">Sized</span>(<span class="number">0</span>))
     }
 }
 </pre></div>

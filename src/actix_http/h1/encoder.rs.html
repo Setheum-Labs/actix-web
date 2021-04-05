@@ -939,7 +939,7 @@
     <span class="kw">fn</span> <span class="ident">encode_status</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">dst</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">io</span>::<span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_ref</span>();
         <span class="ident">dst</span>.<span class="ident">reserve</span>(<span class="number">256</span> <span class="op">+</span> <span class="ident">head</span>.<span class="ident">headers</span>.<span class="ident">len</span>() <span class="op">*</span> <span class="ident">AVERAGE_HEADER_SIZE</span>);
-        <span class="macro">write</span><span class="macro">!</span>(
+        <span class="macro">write!</span>(
             <span class="ident">helpers</span>::<span class="ident">Writer</span>(<span class="ident">dst</span>),
             <span class="string">&quot;{} {} {}&quot;</span>,
             <span class="ident">head</span>.<span class="ident">method</span>,
@@ -1073,7 +1073,7 @@
                     <span class="kw-2">*</span><span class="ident">eof</span> <span class="op">=</span> <span class="bool-val">true</span>;
                     <span class="ident">buf</span>.<span class="ident">extend_from_slice</span>(<span class="string">b&quot;0\r\n\r\n&quot;</span>);
                 } <span class="kw">else</span> {
-                    <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">helpers</span>::<span class="ident">Writer</span>(<span class="ident">buf</span>), <span class="string">&quot;{:X}\r&quot;</span>, <span class="ident">msg</span>.<span class="ident">len</span>())
+                    <span class="macro">writeln!</span>(<span class="ident">helpers</span>::<span class="ident">Writer</span>(<span class="ident">buf</span>), <span class="string">&quot;{:X}\r&quot;</span>, <span class="ident">msg</span>.<span class="ident">len</span>())
                         .<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="ident">e</span>))<span class="question-mark">?</span>;
 
                     <span class="ident">buf</span>.<span class="ident">reserve</span>(<span class="ident">msg</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="number">2</span>);
@@ -1126,7 +1126,7 @@
 <span class="doccomment">/// # Safety</span>
 <span class="doccomment">/// Callers must ensure that the given length matches given value length.</span>
 <span class="kw">unsafe</span> <span class="kw">fn</span> <span class="ident">write_data</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">buf</span>: <span class="kw-2">*</span><span class="kw-2">mut</span> <span class="ident">u8</span>, <span class="ident">len</span>: <span class="ident">usize</span>) {
-    <span class="macro">debug_assert_eq</span><span class="macro">!</span>(<span class="ident">value</span>.<span class="ident">len</span>(), <span class="ident">len</span>);
+    <span class="macro">debug_assert_eq!</span>(<span class="ident">value</span>.<span class="ident">len</span>(), <span class="ident">len</span>);
     <span class="ident">copy_nonoverlapping</span>(<span class="ident">value</span>.<span class="ident">as_ptr</span>(), <span class="ident">buf</span>, <span class="ident">len</span>);
 }
 
@@ -1173,10 +1173,10 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">enc</span> <span class="op">=</span> <span class="ident">TransferEncoding</span>::<span class="ident">chunked</span>();
         {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">enc</span>.<span class="ident">encode</span>(<span class="string">b&quot;test&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>).<span class="ident">ok</span>().<span class="ident">unwrap</span>());
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">enc</span>.<span class="ident">encode</span>(<span class="string">b&quot;&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>).<span class="ident">ok</span>().<span class="ident">unwrap</span>());
+            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">enc</span>.<span class="ident">encode</span>(<span class="string">b&quot;test&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>).<span class="ident">ok</span>().<span class="ident">unwrap</span>());
+            <span class="macro">assert!</span>(<span class="ident">enc</span>.<span class="ident">encode</span>(<span class="string">b&quot;&quot;</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>).<span class="ident">ok</span>().<span class="ident">unwrap</span>());
         }
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>(),
             <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;4\r\ntest\r\n0\r\n\r\n&quot;</span>)
         );
@@ -1203,10 +1203,10 @@
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
             <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Length: 0\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Connection: close\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Type: plain/text\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Date: date\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Length: 0\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Connection: close\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Type: plain/text\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Date: date\r\n&quot;</span>));
 
         <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="ident">head</span>.<span class="ident">encode_headers</span>(
             <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">bytes</span>,
@@ -1217,9 +1217,9 @@
         );
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
             <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Transfer-Encoding: chunked\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Type: plain/text\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Date: date\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Transfer-Encoding: chunked\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Content-Type: plain/text\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;Date: date\r\n&quot;</span>));
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">head</span> <span class="op">=</span> <span class="ident">RequestHead</span>::<span class="ident">default</span>();
         <span class="ident">head</span>.<span class="ident">set_camel_case_headers</span>(<span class="bool-val">false</span>);
@@ -1239,10 +1239,10 @@
         );
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
             <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;transfer-encoding: chunked\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-type: xml\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-type: plain/text\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;date: date\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;transfer-encoding: chunked\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-type: xml\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-type: plain/text\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;date: date\r\n&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1273,10 +1273,10 @@
         );
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
             <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-length: 0\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;connection: close\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;authorization: another authorization\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;date: date\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-length: 0\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;connection: close\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;authorization: another authorization\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;date: date\r\n&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1298,8 +1298,8 @@
         );
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span>
             <span class="ident">String</span>::<span class="ident">from_utf8</span>(<span class="ident">Vec</span>::<span class="ident">from</span>(<span class="ident">bytes</span>.<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">as_ref</span>())).<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-length: 0\r\n&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;transfer-encoding: chunked\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;content-length: 0\r\n&quot;</span>));
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">data</span>.<span class="ident">contains</span>(<span class="string">&quot;transfer-encoding: chunked\r\n&quot;</span>));
     }
 }
 </pre></div>

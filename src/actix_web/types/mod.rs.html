@@ -17,12 +17,15 @@
 <span id="16">16</span>
 <span id="17">17</span>
 <span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Common extractors and responders.</span>
 
 <span class="comment">// TODO: review visibility</span>
 <span class="kw">mod</span> <span class="ident">either</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">form</span>;
+<span class="kw">mod</span> <span class="ident">header</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">json</span>;
 <span class="kw">mod</span> <span class="ident">path</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">mod</span> <span class="ident">payload</span>;
@@ -31,6 +34,7 @@
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">either</span>::{<span class="ident">Either</span>, <span class="ident">EitherExtractError</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">form</span>::{<span class="ident">Form</span>, <span class="ident">FormConfig</span>};
+<span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">header</span>::<span class="ident">Header</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">json</span>::{<span class="ident">Json</span>, <span class="ident">JsonConfig</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">path</span>::{<span class="ident">Path</span>, <span class="ident">PathConfig</span>};
 <span class="kw">pub</span> <span class="kw">use</span> <span class="self">self</span>::<span class="ident">payload</span>::{<span class="ident">Payload</span>, <span class="ident">PayloadConfig</span>};

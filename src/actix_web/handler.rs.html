@@ -201,8 +201,8 @@
 
 <span class="kw">use</span> <span class="ident">actix_http</span>::{<span class="ident">Error</span>, <span class="ident">Response</span>};
 <span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">Service</span>, <span class="ident">ServiceFactory</span>};
-<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
-<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">ready</span>;
+<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
+<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">ready</span>;
 <span class="kw">use</span> <span class="ident">pin_project</span>::<span class="ident">pin_project</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">extract</span>::<span class="ident">FromRequest</span>;
@@ -337,7 +337,7 @@
         <span class="kw">loop</span> {
             <span class="kw">match</span> <span class="self">self</span>.<span class="ident">as_mut</span>().<span class="ident">project</span>() {
                 <span class="ident">HandlerProj</span>::<span class="ident">Extract</span>(<span class="ident">fut</span>, <span class="ident">req</span>, <span class="ident">handle</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">match</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>)) {
+                    <span class="kw">match</span> <span class="macro">ready!</span>(<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>)) {
                         <span class="prelude-val">Ok</span>(<span class="ident">item</span>) <span class="op">=</span><span class="op">&gt;</span> {
                             <span class="kw">let</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">handle</span>.<span class="ident">call</span>(<span class="ident">item</span>);
                             <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="ident">HandlerServiceFuture</span>::<span class="ident">Handle</span>(<span class="ident">fut</span>, <span class="ident">req</span>.<span class="ident">take</span>());
@@ -351,7 +351,7 @@
                     };
                 }
                 <span class="ident">HandlerProj</span>::<span class="ident">Handle</span>(<span class="ident">fut</span>, <span class="ident">req</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
+                    <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready!</span>(<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
                     <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>();
                     <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>);
                     <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ServiceResponse</span>::<span class="ident">new</span>(<span class="ident">req</span>, <span class="ident">res</span>)));
@@ -362,7 +362,7 @@
 }
 
 <span class="doccomment">/// FromRequest trait impl for tuples</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">factory_tuple</span> ({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">ident</span>)<span class="op">*</span> } <span class="op">=</span><span class="op">&gt;</span> {
+<span class="macro">macro_rules!</span> <span class="ident">factory_tuple</span> ({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>:<span class="ident">ident</span>)<span class="op">*</span> } <span class="op">=</span><span class="op">&gt;</span> {
     <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Func</span>, $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>,)<span class="op">*</span> <span class="ident">Res</span><span class="op">&gt;</span> <span class="ident">Handler</span><span class="op">&lt;</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>,)<span class="kw-2">*</span>), <span class="ident">Res</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Func</span>
     <span class="kw">where</span> <span class="ident">Func</span>: <span class="ident">Fn</span>($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">param</span>),<span class="kw-2">*</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Res</span> <span class="op">+</span> <span class="ident">Clone</span> <span class="op">+</span> <span class="lifetime">&#39;static</span>,
           <span class="ident">Res</span>: <span class="ident">Future</span>,
@@ -375,19 +375,19 @@
     }
 });
 
-<span class="macro">factory_tuple</span><span class="macro">!</span> {}
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> }
-<span class="macro">factory_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> <span class="ident">L</span> }
+<span class="macro">factory_tuple!</span> {}
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> }
+<span class="macro">factory_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> <span class="ident">L</span> }
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="actix_web" data-search-js="../../search-index.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script></body></html>

@@ -294,9 +294,9 @@
         <span class="kw">let</span> <span class="ident">encoded_value</span> <span class="op">=</span>
             <span class="ident">percent_encoding</span>::<span class="ident">percent_encode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">value</span>[..], <span class="ident">HTTP_VALUE</span>);
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">lang</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">language_tag</span> {
-            <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&#39;{}&#39;{}&quot;</span>, <span class="self">self</span>.<span class="ident">charset</span>, <span class="ident">lang</span>, <span class="ident">encoded_value</span>)
+            <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&#39;{}&#39;{}&quot;</span>, <span class="self">self</span>.<span class="ident">charset</span>, <span class="ident">lang</span>, <span class="ident">encoded_value</span>)
         } <span class="kw">else</span> {
-            <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&#39;&#39;{}&quot;</span>, <span class="self">self</span>.<span class="ident">charset</span>, <span class="ident">encoded_value</span>)
+            <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{}&#39;&#39;{}&quot;</span>, <span class="self">self</span>.<span class="ident">charset</span>, <span class="ident">encoded_value</span>)
         }
     }
 }
@@ -311,13 +311,13 @@
         <span class="comment">// RFC 5987, Section 3.2.2</span>
         <span class="comment">// Extended notation, using the Unicode character U+00A3 (POUND SIGN)</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">parse_extended_value</span>(<span class="string">&quot;iso-8859-1&#39;en&#39;%A3%20rates&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_ok</span>());
+        <span class="macro">assert!</span>(<span class="ident">result</span>.<span class="ident">is_ok</span>());
         <span class="kw">let</span> <span class="ident">extended_value</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Charset</span>::<span class="ident">Iso_8859_1</span>, <span class="ident">extended_value</span>.<span class="ident">charset</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">extended_value</span>.<span class="ident">language_tag</span>.<span class="ident">is_some</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">expected_language_tag</span>, <span class="ident">extended_value</span>.<span class="ident">language_tag</span>.<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="macro">vec</span><span class="macro">!</span>[<span class="number">163</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;s&#39;</span>],
+        <span class="macro">assert_eq!</span>(<span class="ident">Charset</span>::<span class="ident">Iso_8859_1</span>, <span class="ident">extended_value</span>.<span class="ident">charset</span>);
+        <span class="macro">assert!</span>(<span class="ident">extended_value</span>.<span class="ident">language_tag</span>.<span class="ident">is_some</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">expected_language_tag</span>, <span class="ident">extended_value</span>.<span class="ident">language_tag</span>.<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(
+            <span class="macro">vec!</span>[<span class="number">163</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;s&#39;</span>],
             <span class="ident">extended_value</span>.<span class="ident">value</span>
         );
     }
@@ -328,12 +328,12 @@
         <span class="comment">// Extended notation, using the Unicode characters U+00A3 (POUND SIGN)</span>
         <span class="comment">// and U+20AC (EURO SIGN)</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">parse_extended_value</span>(<span class="string">&quot;UTF-8&#39;&#39;%c2%a3%20and%20%e2%82%ac%20rates&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_ok</span>());
+        <span class="macro">assert!</span>(<span class="ident">result</span>.<span class="ident">is_ok</span>());
         <span class="kw">let</span> <span class="ident">extended_value</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Charset</span>::<span class="ident">Ext</span>(<span class="string">&quot;UTF-8&quot;</span>.<span class="ident">to_string</span>()), <span class="ident">extended_value</span>.<span class="ident">charset</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">extended_value</span>.<span class="ident">language_tag</span>.<span class="ident">is_none</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="macro">assert_eq!</span>(<span class="ident">Charset</span>::<span class="ident">Ext</span>(<span class="string">&quot;UTF-8&quot;</span>.<span class="ident">to_string</span>()), <span class="ident">extended_value</span>.<span class="ident">charset</span>);
+        <span class="macro">assert!</span>(<span class="ident">extended_value</span>.<span class="ident">language_tag</span>.<span class="ident">is_none</span>());
+        <span class="macro">assert_eq!</span>(
+            <span class="macro">vec!</span>[
                 <span class="number">194</span>, <span class="number">163</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;n&#39;</span>, <span class="string">b&#39;d&#39;</span>, <span class="string">b&#39; &#39;</span>, <span class="number">226</span>, <span class="number">130</span>, <span class="number">172</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;a&#39;</span>,
                 <span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;s&#39;</span>,
             ],
@@ -345,19 +345,19 @@
     <span class="kw">fn</span> <span class="ident">test_parse_extended_value_missing_language_tag_and_encoding</span>() {
         <span class="comment">// From: https://greenbytes.de/tech/tc2231/#attwithfn2231quot2</span>
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">parse_extended_value</span>(<span class="string">&quot;foo%20bar.html&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_parse_extended_value_partially_formatted</span>() {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">parse_extended_value</span>(<span class="string">&quot;UTF-8&#39;missing third part&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_parse_extended_value_partially_formatted_blank</span>() {
         <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">parse_extended_value</span>(<span class="string">&quot;blank second part&#39;&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">result</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -365,9 +365,9 @@
         <span class="kw">let</span> <span class="ident">extended_value</span> <span class="op">=</span> <span class="ident">ExtendedValue</span> {
             <span class="ident">charset</span>: <span class="ident">Charset</span>::<span class="ident">Iso_8859_1</span>,
             <span class="ident">language_tag</span>: <span class="prelude-val">Some</span>(<span class="string">&quot;en&quot;</span>.<span class="ident">parse</span>().<span class="ident">expect</span>(<span class="string">&quot;Could not parse language tag&quot;</span>)),
-            <span class="ident">value</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="number">163</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;s&#39;</span>],
+            <span class="ident">value</span>: <span class="macro">vec!</span>[<span class="number">163</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;s&#39;</span>],
         };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;ISO-8859-1&#39;en&#39;%A3%20rates&quot;</span>, <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">extended_value</span>));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ISO-8859-1&#39;en&#39;%A3%20rates&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">extended_value</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -375,14 +375,14 @@
         <span class="kw">let</span> <span class="ident">extended_value</span> <span class="op">=</span> <span class="ident">ExtendedValue</span> {
             <span class="ident">charset</span>: <span class="ident">Charset</span>::<span class="ident">Ext</span>(<span class="string">&quot;UTF-8&quot;</span>.<span class="ident">to_string</span>()),
             <span class="ident">language_tag</span>: <span class="prelude-val">None</span>,
-            <span class="ident">value</span>: <span class="macro">vec</span><span class="macro">!</span>[
+            <span class="ident">value</span>: <span class="macro">vec!</span>[
                 <span class="number">194</span>, <span class="number">163</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;a&#39;</span>, <span class="string">b&#39;n&#39;</span>, <span class="string">b&#39;d&#39;</span>, <span class="string">b&#39; &#39;</span>, <span class="number">226</span>, <span class="number">130</span>, <span class="number">172</span>, <span class="string">b&#39; &#39;</span>, <span class="string">b&#39;r&#39;</span>, <span class="string">b&#39;a&#39;</span>,
                 <span class="string">b&#39;t&#39;</span>, <span class="string">b&#39;e&#39;</span>, <span class="string">b&#39;s&#39;</span>,
             ],
         };
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="string">&quot;UTF-8&#39;&#39;%C2%A3%20and%20%E2%82%AC%20rates&quot;</span>,
-            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">extended_value</span>)
+            <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">extended_value</span>)
         );
     }
 }

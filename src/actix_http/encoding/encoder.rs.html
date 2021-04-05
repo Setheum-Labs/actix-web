@@ -432,7 +432,7 @@
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">fut</span>) <span class="op">=</span> <span class="ident">this</span>.<span class="ident">fut</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">encoder</span> <span class="op">=</span>
-                    <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">Pin</span>::<span class="ident">new</span>(<span class="ident">fut</span>).<span class="ident">poll</span>(<span class="ident">cx</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">BlockingError</span>)<span class="question-mark">?</span><span class="question-mark">?</span>;
+                    <span class="macro">ready!</span>(<span class="ident">Pin</span>::<span class="ident">new</span>(<span class="ident">fut</span>).<span class="ident">poll</span>(<span class="ident">cx</span>)).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">BlockingError</span>)<span class="question-mark">?</span><span class="question-mark">?</span>;
 
                 <span class="kw">let</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="ident">encoder</span>.<span class="ident">take</span>();
                 <span class="kw-2">*</span><span class="ident">this</span>.<span class="ident">encoder</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">encoder</span>);
@@ -443,7 +443,7 @@
                 }
             }
 
-            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">this</span>.<span class="ident">body</span>.<span class="ident">as_mut</span>().<span class="ident">poll_next</span>(<span class="ident">cx</span>));
+            <span class="kw">let</span> <span class="ident">result</span> <span class="op">=</span> <span class="macro">ready!</span>(<span class="ident">this</span>.<span class="ident">body</span>.<span class="ident">as_mut</span>().<span class="ident">poll_next</span>(<span class="ident">cx</span>));
 
             <span class="kw">match</span> <span class="ident">result</span> {
                 <span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Err</span>(<span class="ident">err</span>))),
@@ -549,21 +549,21 @@
             <span class="ident">ContentEncoder</span>::<span class="ident">Br</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">encoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">encoder</span>.<span class="ident">write_all</span>(<span class="ident">data</span>) {
                 <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Error decoding br encoding: {}&quot;</span>, <span class="ident">err</span>);
+                    <span class="macro">trace!</span>(<span class="string">&quot;Error decoding br encoding: {}&quot;</span>, <span class="ident">err</span>);
                     <span class="prelude-val">Err</span>(<span class="ident">err</span>)
                 }
             },
             <span class="ident">ContentEncoder</span>::<span class="ident">Gzip</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">encoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">encoder</span>.<span class="ident">write_all</span>(<span class="ident">data</span>) {
                 <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Error decoding gzip encoding: {}&quot;</span>, <span class="ident">err</span>);
+                    <span class="macro">trace!</span>(<span class="string">&quot;Error decoding gzip encoding: {}&quot;</span>, <span class="ident">err</span>);
                     <span class="prelude-val">Err</span>(<span class="ident">err</span>)
                 }
             },
             <span class="ident">ContentEncoder</span>::<span class="ident">Deflate</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">encoder</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">encoder</span>.<span class="ident">write_all</span>(<span class="ident">data</span>) {
                 <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(()),
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Error decoding deflate encoding: {}&quot;</span>, <span class="ident">err</span>);
+                    <span class="macro">trace!</span>(<span class="string">&quot;Error decoding deflate encoding: {}&quot;</span>, <span class="ident">err</span>);
                     <span class="prelude-val">Err</span>(<span class="ident">err</span>)
                 }
             },

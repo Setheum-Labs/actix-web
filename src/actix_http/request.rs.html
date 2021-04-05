@@ -393,7 +393,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Request</span><span class="op">&lt;</span><span class="ident">P</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">writeln</span><span class="macro">!</span>(
+        <span class="macro">writeln!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;\nRequest {:?} {}:{}&quot;</span>,
             <span class="self">self</span>.<span class="ident">version</span>(),
@@ -402,13 +402,13 @@
         )<span class="question-mark">?</span>;
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">q</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">uri</span>().<span class="ident">query</span>().<span class="ident">as_ref</span>() {
-            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  query: ?{:?}&quot;</span>, <span class="ident">q</span>)<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  query: ?{:?}&quot;</span>, <span class="ident">q</span>)<span class="question-mark">?</span>;
         }
 
-        <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>)<span class="question-mark">?</span>;
 
         <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">val</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">headers</span>().<span class="ident">iter</span>() {
-            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
@@ -428,14 +428,14 @@
             <span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>,
             <span class="ident">header</span>::<span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/plain&quot;</span>),
         );
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>));
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>));
 
         <span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">uri_mut</span>() <span class="op">=</span> <span class="ident">Uri</span>::<span class="ident">try_from</span>(<span class="string">&quot;/index.html?q=1&quot;</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>(), <span class="string">&quot;/index.html&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">query</span>(), <span class="prelude-val">Some</span>(<span class="string">&quot;q=1&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">path</span>(), <span class="string">&quot;/index.html&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">uri</span>().<span class="ident">query</span>(), <span class="prelude-val">Some</span>(<span class="string">&quot;q=1&quot;</span>));
 
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">req</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;Request HTTP/1.1 GET:/index.html&quot;</span>));
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">req</span>);
+        <span class="macro">assert!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;Request HTTP/1.1 GET:/index.html&quot;</span>));
     }
 }
 </pre></div>

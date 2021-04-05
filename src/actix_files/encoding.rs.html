@@ -101,9 +101,9 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_equiv_utf8_text</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">equiv_utf8_text</span>(<span class="ident">mime</span>::<span class="ident">TEXT_PLAIN</span>), <span class="ident">mime</span>::<span class="ident">TEXT_PLAIN_UTF_8</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">equiv_utf8_text</span>(<span class="ident">mime</span>::<span class="ident">TEXT_XML</span>), <span class="ident">mime</span>::<span class="ident">TEXT_XML</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">equiv_utf8_text</span>(<span class="ident">mime</span>::<span class="ident">IMAGE_PNG</span>), <span class="ident">mime</span>::<span class="ident">IMAGE_PNG</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">equiv_utf8_text</span>(<span class="ident">mime</span>::<span class="ident">TEXT_PLAIN</span>), <span class="ident">mime</span>::<span class="ident">TEXT_PLAIN_UTF_8</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">equiv_utf8_text</span>(<span class="ident">mime</span>::<span class="ident">TEXT_XML</span>), <span class="ident">mime</span>::<span class="ident">TEXT_XML</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">equiv_utf8_text</span>(<span class="ident">mime</span>::<span class="ident">IMAGE_PNG</span>), <span class="ident">mime</span>::<span class="ident">IMAGE_PNG</span>);
     }
 }
 </pre></div>

@@ -109,7 +109,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_multipart_error</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">MultipartError</span>::<span class="ident">Boundary</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
     }
 }
 </pre></div>

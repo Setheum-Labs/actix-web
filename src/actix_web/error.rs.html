@@ -376,19 +376,19 @@
     <span class="kw">fn</span> <span class="ident">test_urlencoded_error</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span>
             <span class="ident">UrlencodedError</span>::<span class="ident">Overflow</span> { <span class="ident">size</span>: <span class="number">0</span>, <span class="ident">limit</span>: <span class="number">0</span> }.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">UrlencodedError</span>::<span class="ident">UnknownLength</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LENGTH_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LENGTH_REQUIRED</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">UrlencodedError</span>::<span class="ident">ContentType</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_json_payload_error</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">JsonPayloadError</span>::<span class="ident">Overflow</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">JsonPayloadError</span>::<span class="ident">ContentType</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -397,15 +397,15 @@
             <span class="ident">serde_urlencoded</span>::<span class="ident">from_str</span>::<span class="op">&lt;</span><span class="ident">i32</span><span class="op">&gt;</span>(<span class="string">&quot;bad query&quot;</span>).<span class="ident">unwrap_err</span>(),
         )
         .<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_readlines_error</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">ReadlinesError</span>::<span class="ident">LimitOverflow</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">ReadlinesError</span>::<span class="ident">EncodingError</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
     }
 }
 </pre></div>

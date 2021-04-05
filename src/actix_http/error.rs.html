@@ -1185,30 +1185,6 @@
 <span id="1184">1184</span>
 <span id="1185">1185</span>
 <span id="1186">1186</span>
-<span id="1187">1187</span>
-<span id="1188">1188</span>
-<span id="1189">1189</span>
-<span id="1190">1190</span>
-<span id="1191">1191</span>
-<span id="1192">1192</span>
-<span id="1193">1193</span>
-<span id="1194">1194</span>
-<span id="1195">1195</span>
-<span id="1196">1196</span>
-<span id="1197">1197</span>
-<span id="1198">1198</span>
-<span id="1199">1199</span>
-<span id="1200">1200</span>
-<span id="1201">1201</span>
-<span id="1202">1202</span>
-<span id="1203">1203</span>
-<span id="1204">1204</span>
-<span id="1205">1205</span>
-<span id="1206">1206</span>
-<span id="1207">1207</span>
-<span id="1208">1208</span>
-<span id="1209">1209</span>
-<span id="1210">1210</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Error and Result module</span>
 
@@ -1218,9 +1194,6 @@
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">string</span>::<span class="ident">FromUtf8Error</span>;
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">io</span>, <span class="ident">result</span>};
 
-<span class="kw">use</span> <span class="ident">actix_codec</span>::{<span class="ident">Decoder</span>, <span class="ident">Encoder</span>};
-<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">dispatcher</span>::<span class="ident">DispatcherError</span> <span class="kw">as</span> <span class="ident">FramedDispatcherError</span>;
-<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">timeout</span>::<span class="ident">TimeoutError</span>;
 <span class="kw">use</span> <span class="ident">bytes</span>::<span class="ident">BytesMut</span>;
 <span class="kw">use</span> <span class="ident">derive_more</span>::{<span class="ident">Display</span>, <span class="ident">From</span>};
 <span class="kw">use</span> <span class="ident">http</span>::<span class="ident">uri</span>::<span class="ident">InvalidUri</span>;
@@ -1285,7 +1258,7 @@
     <span class="kw">fn</span> <span class="ident">error_response</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Response</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="ident">new</span>(<span class="self">self</span>.<span class="ident">status_code</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">Writer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>), <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write!</span>(<span class="ident">Writer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>), <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
         <span class="ident">resp</span>.<span class="ident">headers_mut</span>().<span class="ident">insert</span>(
             <span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>,
             <span class="ident">header</span>::<span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>),
@@ -1293,10 +1266,10 @@
         <span class="ident">resp</span>.<span class="ident">set_body</span>(<span class="ident">Body</span>::<span class="ident">from</span>(<span class="ident">buf</span>))
     }
 
-    <span class="macro">downcast_get_type_id</span><span class="macro">!</span>();
+    <span class="macro">downcast_get_type_id!</span>();
 }
 
-<span class="macro">downcast</span><span class="macro">!</span>(<span class="ident">ResponseError</span>);
+<span class="macro">downcast!</span>(<span class="ident">ResponseError</span>);
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Display</span> <span class="kw">for</span> <span class="ident">Error</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
@@ -1306,7 +1279,7 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Error</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cause</span>)
+        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;{:?}&quot;</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cause</span>)
     }
 }
 
@@ -1326,7 +1299,7 @@
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">std</span>::<span class="ident">convert</span>::<span class="ident">Infallible</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="comment">// `std::convert::Infallible` indicates an error</span>
         <span class="comment">// that will never happen</span>
-        <span class="macro">unreachable</span><span class="macro">!</span>()
+        <span class="macro">unreachable!</span>()
     }
 }
 
@@ -1357,19 +1330,6 @@
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">ResponseBuilder</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">Error</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw-2">mut</span> <span class="ident">res</span>: <span class="ident">ResponseBuilder</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Error</span> {
         <span class="ident">InternalError</span>::<span class="ident">from_response</span>(<span class="string">&quot;&quot;</span>, <span class="ident">res</span>.<span class="ident">finish</span>()).<span class="ident">into</span>()
-    }
-}
-
-<span class="doccomment">/// Inspects the underlying enum and returns an appropriate status code.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// If the variant is [`TimeoutError::Service`], the error code of the service is returned.</span>
-<span class="doccomment">/// Otherwise, [`StatusCode::GATEWAY_TIMEOUT`] is returned.</span>
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">ResponseError</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">TimeoutError</span><span class="op">&lt;</span><span class="ident">E</span><span class="op">&gt;</span> {
-    <span class="kw">fn</span> <span class="ident">status_code</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">StatusCode</span> {
-        <span class="kw">match</span> <span class="self">self</span> {
-            <span class="ident">TimeoutError</span>::<span class="ident">Service</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">e</span>.<span class="ident">status_code</span>(),
-            <span class="ident">TimeoutError</span>::<span class="ident">Timeout</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">StatusCode</span>::<span class="ident">GATEWAY_TIMEOUT</span>,
-        }
     }
 }
 
@@ -1681,14 +1641,6 @@
     }
 }
 
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">U</span>: <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span> <span class="op">+</span> <span class="ident">Decoder</span>, <span class="ident">I</span><span class="op">&gt;</span> <span class="ident">ResponseError</span> <span class="kw">for</span> <span class="ident">FramedDispatcherError</span><span class="op">&lt;</span><span class="ident">E</span>, <span class="ident">U</span>, <span class="ident">I</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">E</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="op">+</span> <span class="ident">fmt</span>::<span class="ident">Display</span>,
-    <span class="op">&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Encoder</span><span class="op">&lt;</span><span class="ident">I</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">Error</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
-    <span class="op">&lt;</span><span class="ident">U</span> <span class="kw">as</span> <span class="ident">Decoder</span><span class="op">&gt;</span>::<span class="ident">Error</span>: <span class="ident">fmt</span>::<span class="ident">Debug</span>,
-{
-}
-
 <span class="doccomment">/// Helper type that can wrap any error and generate custom response.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// In following example any `io::Error` will be converted into &quot;BAD REQUEST&quot;</span>
@@ -1771,7 +1723,7 @@
             <span class="ident">InternalErrorType</span>::<span class="ident">Status</span>(<span class="ident">st</span>) <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="ident">new</span>(<span class="ident">st</span>);
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">new</span>();
-                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">Writer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>), <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
+                <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">write!</span>(<span class="ident">Writer</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>), <span class="string">&quot;{}&quot;</span>, <span class="self">self</span>);
                 <span class="ident">res</span>.<span class="ident">headers_mut</span>().<span class="ident">insert</span>(
                     <span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>,
                     <span class="ident">header</span>::<span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>),
@@ -2188,25 +2140,25 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_into_response</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ParseError</span>::<span class="ident">Incomplete</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
 
         <span class="kw">let</span> <span class="ident">err</span>: <span class="ident">HttpError</span> <span class="op">=</span> <span class="ident">StatusCode</span>::<span class="ident">from_u16</span>(<span class="number">10000</span>).<span class="ident">err</span>().<span class="ident">unwrap</span>().<span class="ident">into</span>();
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span>);
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cookies&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_cookie_parse</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">CookieParseError</span>::<span class="ident">EmptyName</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_as_response</span>() {
         <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;other&quot;</span>);
         <span class="kw">let</span> <span class="ident">e</span>: <span class="ident">Error</span> <span class="op">=</span> <span class="ident">ParseError</span>::<span class="ident">Io</span>(<span class="ident">orig</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>.<span class="ident">as_response_error</span>()), <span class="string">&quot;IO error: other&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>.<span class="ident">as_response_error</span>()), <span class="string">&quot;IO error: other&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2214,7 +2166,7 @@
         <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;other&quot;</span>);
         <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="ident">orig</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">Error</span>::<span class="ident">from</span>(<span class="ident">orig</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>.<span class="ident">as_response_error</span>()), <span class="ident">desc</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>.<span class="ident">as_response_error</span>()), <span class="ident">desc</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2222,7 +2174,7 @@
         <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;other&quot;</span>);
         <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="ident">orig</span>.<span class="ident">to_string</span>();
         <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">Error</span>::<span class="ident">from</span>(<span class="ident">orig</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>), <span class="ident">desc</span>);
+        <span class="macro">assert_eq!</span>(<span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>), <span class="ident">desc</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2230,56 +2182,56 @@
         <span class="kw">let</span> <span class="ident">orig</span> <span class="op">=</span> <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;other&quot;</span>);
         <span class="kw">let</span> <span class="ident">e</span> <span class="op">=</span> <span class="ident">Error</span>::<span class="ident">from</span>(<span class="ident">orig</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">e</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_payload_error</span>() {
         <span class="kw">let</span> <span class="ident">err</span>: <span class="ident">PayloadError</span> <span class="op">=</span>
             <span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;ParseError&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>().<span class="ident">contains</span>(<span class="string">&quot;ParseError&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>().<span class="ident">contains</span>(<span class="string">&quot;ParseError&quot;</span>));
 
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">PayloadError</span>::<span class="ident">Incomplete</span>(<span class="prelude-val">None</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">err</span>.<span class="ident">to_string</span>(),
             <span class="string">&quot;A payload reached EOF, but is not complete. Inner error: None&quot;</span>
         );
     }
 
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">from</span> {
+    <span class="macro">macro_rules!</span> <span class="ident">from</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span>:<span class="ident">pat</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">match</span> <span class="ident">ParseError</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>) {
                 <span class="ident">err</span> @ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>().<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">5</span>);
+                    <span class="macro">assert!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>().<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">5</span>);
                 }
-                <span class="ident">err</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">err</span>),
+                <span class="ident">err</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">err</span>),
             }
         };
     }
 
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">from_and_cause</span> {
+    <span class="macro">macro_rules!</span> <span class="ident">from_and_cause</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>:<span class="ident">expr</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span>:<span class="ident">pat</span>) <span class="op">=</span><span class="op">&gt;</span> {
             <span class="kw">match</span> <span class="ident">ParseError</span>::<span class="ident">from</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>) {
                 <span class="ident">e</span> @ <span class="macro-nonterminal">$</span><span class="macro-nonterminal">error</span> <span class="op">=</span><span class="op">&gt;</span> {
-                    <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>);
-                    <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">desc</span>, <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;IO error: {}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>));
+                    <span class="kw">let</span> <span class="ident">desc</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">e</span>);
+                    <span class="macro">assert_eq!</span>(<span class="ident">desc</span>, <span class="macro">format!</span>(<span class="string">&quot;IO error: {}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>));
                 }
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">from</span>),
             }
         };
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_from</span>() {
-        <span class="macro">from_and_cause</span><span class="macro">!</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;other&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Io</span>(..));
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">HeaderName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">HeaderName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">HeaderValue</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">NewLine</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">Status</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Status</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">Token</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">TooManyHeaders</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">TooLarge</span>);
-        <span class="macro">from</span><span class="macro">!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">Version</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Version</span>);
+        <span class="macro">from_and_cause!</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(<span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">Other</span>, <span class="string">&quot;other&quot;</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Io</span>(..));
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">HeaderName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">HeaderName</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">HeaderValue</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">NewLine</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">Status</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Status</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">Token</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Header</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">TooManyHeaders</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">TooLarge</span>);
+        <span class="macro">from!</span>(<span class="ident">httparse</span>::<span class="ident">Error</span>::<span class="ident">Version</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ParseError</span>::<span class="ident">Version</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2287,7 +2239,7 @@
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span>
             <span class="ident">InternalError</span>::<span class="ident">from_response</span>(<span class="ident">ParseError</span>::<span class="ident">Method</span>, <span class="ident">Response</span>::<span class="prelude-val">Ok</span>().<span class="ident">into</span>());
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">err</span>.<span class="ident">error_response</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2295,129 +2247,129 @@
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">PayloadError</span>::<span class="ident">Overflow</span>;
         <span class="kw">let</span> <span class="ident">resp_err</span>: <span class="kw-2">&amp;</span><span class="kw">dyn</span> <span class="ident">ResponseError</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">err</span>;
         <span class="kw">let</span> <span class="ident">err</span> <span class="op">=</span> <span class="ident">resp_err</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">PayloadError</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>(), <span class="string">&quot;Payload reached size limit.&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">err</span>.<span class="ident">to_string</span>(), <span class="string">&quot;Payload reached size limit.&quot;</span>);
         <span class="kw">let</span> <span class="ident">not_err</span> <span class="op">=</span> <span class="ident">resp_err</span>.<span class="ident">downcast_ref</span>::<span class="op">&lt;</span><span class="ident">ContentTypeError</span><span class="op">&gt;</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">not_err</span>.<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">not_err</span>.<span class="ident">is_none</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_error_helpers</span>() {
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorBadRequest</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnauthorized</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNAUTHORIZED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNAUTHORIZED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPaymentRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYMENT_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYMENT_REQUIRED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorForbidden</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">FORBIDDEN</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">FORBIDDEN</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotFound</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorMethodNotAllowed</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">METHOD_NOT_ALLOWED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">METHOD_NOT_ALLOWED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotAcceptable</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_ACCEPTABLE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_ACCEPTABLE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorProxyAuthenticationRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PROXY_AUTHENTICATION_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PROXY_AUTHENTICATION_REQUIRED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorRequestTimeout</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">REQUEST_TIMEOUT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">REQUEST_TIMEOUT</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorConflict</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">CONFLICT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">CONFLICT</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorGone</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">GONE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">GONE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorLengthRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LENGTH_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LENGTH_REQUIRED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPreconditionFailed</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PRECONDITION_FAILED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PRECONDITION_FAILED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPayloadTooLarge</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PAYLOAD_TOO_LARGE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUriTooLong</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">URI_TOO_LONG</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">URI_TOO_LONG</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnsupportedMediaType</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNSUPPORTED_MEDIA_TYPE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNSUPPORTED_MEDIA_TYPE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorRangeNotSatisfiable</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">RANGE_NOT_SATISFIABLE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">RANGE_NOT_SATISFIABLE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorExpectationFailed</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">EXPECTATION_FAILED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">EXPECTATION_FAILED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorImATeapot</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">IM_A_TEAPOT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">IM_A_TEAPOT</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorMisdirectedRequest</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">MISDIRECTED_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">MISDIRECTED_REQUEST</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnprocessableEntity</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNPROCESSABLE_ENTITY</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNPROCESSABLE_ENTITY</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorLocked</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LOCKED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LOCKED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorFailedDependency</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">FAILED_DEPENDENCY</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">FAILED_DEPENDENCY</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUpgradeRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UPGRADE_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UPGRADE_REQUIRED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorPreconditionRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PRECONDITION_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PRECONDITION_REQUIRED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorTooManyRequests</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">TOO_MANY_REQUESTS</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">TOO_MANY_REQUESTS</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorRequestHeaderFieldsTooLarge</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">REQUEST_HEADER_FIELDS_TOO_LARGE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">REQUEST_HEADER_FIELDS_TOO_LARGE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorUnavailableForLegalReasons</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNAVAILABLE_FOR_LEGAL_REASONS</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">UNAVAILABLE_FOR_LEGAL_REASONS</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorInternalServerError</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotImplemented</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_IMPLEMENTED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_IMPLEMENTED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorBadGateway</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_GATEWAY</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_GATEWAY</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorServiceUnavailable</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">SERVICE_UNAVAILABLE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">SERVICE_UNAVAILABLE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorGatewayTimeout</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">GATEWAY_TIMEOUT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">GATEWAY_TIMEOUT</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorHttpVersionNotSupported</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">HTTP_VERSION_NOT_SUPPORTED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">HTTP_VERSION_NOT_SUPPORTED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorVariantAlsoNegotiates</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">VARIANT_ALSO_NEGOTIATES</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">VARIANT_ALSO_NEGOTIATES</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorInsufficientStorage</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INSUFFICIENT_STORAGE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">INSUFFICIENT_STORAGE</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorLoopDetected</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LOOP_DETECTED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">LOOP_DETECTED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNotExtended</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_EXTENDED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_EXTENDED</span>);
 
         <span class="kw">let</span> <span class="ident">r</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">ErrorNetworkAuthenticationRequired</span>(<span class="string">&quot;err&quot;</span>).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NETWORK_AUTHENTICATION_REQUIRED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NETWORK_AUTHENTICATION_REQUIRED</span>);
     }
 }
 </pre></div>

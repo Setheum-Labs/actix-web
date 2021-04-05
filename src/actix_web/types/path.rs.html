@@ -319,7 +319,7 @@
 
 <span class="kw">use</span> <span class="ident">actix_http</span>::<span class="ident">error</span>::{<span class="ident">Error</span>, <span class="ident">ErrorNotFound</span>};
 <span class="kw">use</span> <span class="ident">actix_router</span>::<span class="ident">PathDeserializer</span>;
-<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
+<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
 <span class="kw">use</span> <span class="ident">serde</span>::<span class="ident">de</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">dev</span>::<span class="ident">Payload</span>, <span class="ident">error</span>::<span class="ident">PathError</span>, <span class="ident">FromRequest</span>, <span class="ident">HttpRequest</span>};
@@ -428,7 +428,7 @@
             <span class="ident">de</span>::<span class="ident">Deserialize</span>::<span class="ident">deserialize</span>(<span class="ident">PathDeserializer</span>::<span class="ident">new</span>(<span class="ident">req</span>.<span class="ident">match_info</span>()))
                 .<span class="ident">map</span>(<span class="ident">Path</span>)
                 .<span class="ident">map_err</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                    <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(
+                    <span class="ident">log</span>::<span class="macro">debug!</span>(
                         <span class="string">&quot;Failed during Path extractor deserialization. \
                          Request path: {:?}&quot;</span>,
                         <span class="ident">req</span>.<span class="ident">path</span>()
@@ -531,8 +531,8 @@
         <span class="ident">resource</span>.<span class="ident">match_path</span>(<span class="ident">req</span>.<span class="ident">match_info_mut</span>());
 
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw-2">mut</span> <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">into_parts</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>(), <span class="number">32</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">MyStruct</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">i8</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>(), <span class="number">32</span>);
+        <span class="macro">assert!</span>(<span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">MyStruct</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">is_err</span>());
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -546,17 +546,17 @@
         <span class="kw">let</span> (<span class="ident">Path</span>(<span class="ident">res</span>),) <span class="op">=</span> <span class="op">&lt;</span>(<span class="ident">Path</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span>,)<span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
 
         <span class="kw">let</span> (<span class="ident">Path</span>(<span class="ident">a</span>), <span class="ident">Path</span>(<span class="ident">b</span>)) <span class="op">=</span>
             <span class="op">&lt;</span>(<span class="ident">Path</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span>, <span class="ident">Path</span><span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span>)<span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
                 .<span class="kw">await</span>
                 .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">a</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">a</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">b</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">b</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">a</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">a</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">b</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">b</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
 
         <span class="kw">let</span> () <span class="op">=</span> <span class="op">&lt;</span>()<span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
     }
@@ -570,22 +570,22 @@
 
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw-2">mut</span> <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">into_parts</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">MyStruct</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">key</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="string">&quot;user1&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">key</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="string">&quot;user1&quot;</span>);
         <span class="ident">s</span>.<span class="ident">value</span> <span class="op">=</span> <span class="string">&quot;user2&quot;</span>.<span class="ident">to_string</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="string">&quot;user2&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}, {:?}&quot;</span>, <span class="ident">s</span>, <span class="ident">s</span>),
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="string">&quot;user2&quot;</span>);
+        <span class="macro">assert_eq!</span>(
+            <span class="macro">format!</span>(<span class="string">&quot;{}, {:?}&quot;</span>, <span class="ident">s</span>, <span class="ident">s</span>),
             <span class="string">&quot;MyStruct(name, user2), MyStruct { key: \&quot;name\&quot;, value: \&quot;user2\&quot; }&quot;</span>
         );
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">into_inner</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="string">&quot;user2&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="string">&quot;user2&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">Path</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="ident">Path</span>::<span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">String</span>)<span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="number">1</span>, <span class="string">&quot;user1&quot;</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/name/32/&quot;</span>).<span class="ident">to_srv_request</span>();
         <span class="kw">let</span> <span class="ident">resource</span> <span class="op">=</span> <span class="ident">ResourceDef</span>::<span class="ident">new</span>(<span class="string">&quot;/{key}/{value}/&quot;</span>);
@@ -593,20 +593,20 @@
 
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw-2">mut</span> <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">into_parts</span>();
         <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">Test2</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">as_ref</span>().<span class="ident">key</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="number">32</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">as_ref</span>().<span class="ident">key</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="ident">value</span>, <span class="number">32</span>);
 
         <span class="kw">let</span> <span class="ident">Path</span>(<span class="ident">s</span>) <span class="op">=</span> <span class="ident">Path</span>::<span class="op">&lt;</span>(<span class="ident">String</span>, <span class="ident">u8</span>)<span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="number">1</span>, <span class="number">32</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="number">0</span>, <span class="string">&quot;name&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">s</span>.<span class="number">1</span>, <span class="number">32</span>);
 
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Path</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>[<span class="number">0</span>], <span class="string">&quot;name&quot;</span>.<span class="ident">to_owned</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>[<span class="number">1</span>], <span class="string">&quot;32&quot;</span>.<span class="ident">to_owned</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>[<span class="number">0</span>], <span class="string">&quot;name&quot;</span>.<span class="ident">to_owned</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>[<span class="number">1</span>], <span class="string">&quot;32&quot;</span>.<span class="ident">to_owned</span>());
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -623,7 +623,7 @@
             .<span class="ident">unwrap_err</span>();
         <span class="kw">let</span> <span class="ident">res</span>: <span class="ident">HttpResponse</span> <span class="op">=</span> <span class="ident">s</span>.<span class="ident">into</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">CONFLICT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">CONFLICT</span>);
     }
 }
 </pre></div>

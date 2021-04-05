@@ -288,6 +288,14 @@
 <span id="287">287</span>
 <span id="288">288</span>
 <span id="289">289</span>
+<span id="290">290</span>
+<span id="291">291</span>
+<span id="292">292</span>
+<span id="293">293</span>
+<span id="294">294</span>
+<span id="295">295</span>
+<span id="296">296</span>
+<span id="297">297</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! `awc` is a HTTP and WebSocket client library built on the Actix ecosystem.</span>
 <span class="doccomment">//!</span>
@@ -576,6 +584,14 @@
             <span class="ident">req</span>.<span class="ident">head</span>.<span class="ident">headers</span>.<span class="ident">insert</span>(<span class="ident">key</span>.<span class="ident">clone</span>(), <span class="ident">value</span>.<span class="ident">clone</span>());
         }
         <span class="ident">req</span>
+    }
+
+    <span class="doccomment">/// Get default HeaderMap of Client.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Returns Some(&amp;mut HeaderMap) when Client object is unique</span>
+    <span class="doccomment">/// (No other clone of client exists at the same time).</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">headers</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">HeaderMap</span><span class="op">&gt;</span> {
+        <span class="ident">Rc</span>::<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>.<span class="number">0</span>.<span class="ident">headers</span>)
     }
 }
 </pre></div>

@@ -368,7 +368,7 @@
     <span class="ident">max_size</span>: <span class="ident">usize</span>,
 }
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
+<span class="macro">bitflags!</span> {
     <span class="kw">struct</span> <span class="ident">Flags</span>: <span class="ident">u8</span> {
         <span class="kw">const</span> <span class="ident">SERVER</span>         <span class="op">=</span> <span class="number">0b0000_0001</span>;
         <span class="kw">const</span> <span class="ident">CONTINUATION</span>   <span class="op">=</span> <span class="number">0b0000_0010</span>;
@@ -547,7 +547,7 @@
                             }
                         }
                         <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-                            <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Unfinished fragment {:?}&quot;</span>, <span class="ident">opcode</span>);
+                            <span class="macro">error!</span>(<span class="string">&quot;Unfinished fragment {:?}&quot;</span>, <span class="ident">opcode</span>);
                             <span class="prelude-val">Err</span>(<span class="ident">ProtocolError</span>::<span class="ident">ContinuationFragment</span>(<span class="ident">opcode</span>))
                         }
                     };

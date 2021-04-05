@@ -374,12 +374,12 @@
 
 <span class="kw">impl</span> <span class="ident">ToTokens</span> <span class="kw">for</span> <span class="ident">ResourceType</span> {
     <span class="kw">fn</span> <span class="ident">to_tokens</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">stream</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">TokenStream2</span>) {
-        <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="macro">format_ident</span><span class="macro">!</span>(<span class="string">&quot;to&quot;</span>);
+        <span class="kw">let</span> <span class="ident">ident</span> <span class="op">=</span> <span class="macro">format_ident!</span>(<span class="string">&quot;to&quot;</span>);
         <span class="ident">stream</span>.<span class="ident">append</span>(<span class="ident">ident</span>);
     }
 }
 
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">method_type</span> {
+<span class="macro">macro_rules!</span> <span class="ident">method_type</span> {
     (
         $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>:<span class="ident">ident</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">upper</span>:<span class="ident">ident</span>,)<span class="op">+</span>
     ) <span class="op">=</span><span class="op">&gt;</span> {
@@ -393,21 +393,21 @@
         <span class="kw">impl</span> <span class="ident">MethodType</span> {
             <span class="kw">fn</span> <span class="ident">as_str</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;static</span> <span class="ident">str</span> {
                 <span class="kw">match</span> <span class="self">self</span> {
-                    $(<span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>),)<span class="op">+</span>
+                    $(<span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>),)<span class="op">+</span>
                 }
             }
 
             <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">method</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">String</span><span class="op">&gt;</span> {
                 <span class="kw">match</span> <span class="ident">method</span> {
-                    $(<span class="macro">stringify</span><span class="macro">!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">upper</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>),)<span class="op">+</span>
-                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;Unexpected HTTP method: `{}`&quot;</span>, <span class="ident">method</span>)),
+                    $(<span class="macro">stringify!</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">upper</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="self">Self</span>::<span class="macro-nonterminal">$</span><span class="macro-nonterminal">variant</span>),)<span class="op">+</span>
+                    <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Unexpected HTTP method: `{}`&quot;</span>, <span class="ident">method</span>)),
                 }
             }
         }
     };
 }
 
-<span class="macro">method_type</span><span class="macro">!</span> {
+<span class="macro">method_type!</span> {
     <span class="ident">Get</span>,       <span class="ident">GET</span>,
     <span class="ident">Post</span>,      <span class="ident">POST</span>,
     <span class="ident">Put</span>,       <span class="ident">PUT</span>,
@@ -508,7 +508,7 @@
                             <span class="kw">if</span> <span class="op">!</span><span class="ident">methods</span>.<span class="ident">insert</span>(<span class="ident">method</span>) {
                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new_spanned</span>(
                                     <span class="kw-2">&amp;</span><span class="ident">nv</span>.<span class="ident">lit</span>,
-                                    <span class="kw-2">&amp;</span><span class="macro">format</span><span class="macro">!</span>(
+                                    <span class="kw-2">&amp;</span><span class="macro">format!</span>(
                                         <span class="string">&quot;HTTP method defined more than once: `{}`&quot;</span>,
                                         <span class="ident">lit</span>.<span class="ident">value</span>()
                                     ),
@@ -583,7 +583,7 @@
         <span class="kw">if</span> <span class="ident">args</span>.<span class="ident">is_empty</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">syn</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">Span</span>::<span class="ident">call_site</span>(),
-                <span class="macro">format</span><span class="macro">!</span>(
+                <span class="macro">format!</span>(
                     <span class="string">r#&quot;invalid service definition, expected #[{}(&quot;&lt;some path&gt;&quot;)]&quot;#</span>,
                     <span class="ident">method</span>
                         .<span class="ident">map</span>(<span class="op">|</span><span class="ident">it</span><span class="op">|</span> <span class="ident">it</span>.<span class="ident">as_str</span>())
@@ -664,20 +664,20 @@
             <span class="kw">let</span> <span class="ident">first</span> <span class="op">=</span> <span class="ident">others</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
 
             <span class="kw">if</span> <span class="ident">methods</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">1</span> {
-                <span class="macro">quote</span><span class="macro">!</span> {
+                <span class="macro">quote!</span> {
                     .<span class="ident">guard</span>(
                         <span class="ident">actix_web</span>::<span class="ident">guard</span>::<span class="ident">Any</span>(<span class="ident">actix_web</span>::<span class="ident">guard</span>::#<span class="ident">first</span>())
                             #(.<span class="ident">or</span>(<span class="ident">actix_web</span>::<span class="ident">guard</span>::#<span class="ident">others</span>()))<span class="op">*</span>
                     )
                 }
             } <span class="kw">else</span> {
-                <span class="macro">quote</span><span class="macro">!</span> {
+                <span class="macro">quote!</span> {
                     .<span class="ident">guard</span>(<span class="ident">actix_web</span>::<span class="ident">guard</span>::#<span class="ident">first</span>())
                 }
             }
         };
 
-        <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="macro">quote</span><span class="macro">!</span> {
+        <span class="kw">let</span> <span class="ident">stream</span> <span class="op">=</span> <span class="macro">quote!</span> {
             #(#<span class="ident">doc_attributes</span>)<span class="op">*</span>
             <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_camel_case_types</span>, <span class="ident">missing_docs</span>)]</span>
             <span class="kw">pub</span> <span class="kw">struct</span> #<span class="ident">name</span>;
@@ -706,7 +706,7 @@
     <span class="ident">args</span>: <span class="ident">TokenStream</span>,
     <span class="ident">input</span>: <span class="ident">TokenStream</span>,
 ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">TokenStream</span> {
-    <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">parse_macro_input</span><span class="macro">!</span>(<span class="ident">args</span> <span class="kw">as</span> <span class="ident">syn</span>::<span class="ident">AttributeArgs</span>);
+    <span class="kw">let</span> <span class="ident">args</span> <span class="op">=</span> <span class="macro">parse_macro_input!</span>(<span class="ident">args</span> <span class="kw">as</span> <span class="ident">syn</span>::<span class="ident">AttributeArgs</span>);
     <span class="kw">match</span> <span class="ident">Route</span>::<span class="ident">new</span>(<span class="ident">args</span>, <span class="ident">input</span>, <span class="ident">method</span>) {
         <span class="prelude-val">Ok</span>(<span class="ident">route</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">route</span>.<span class="ident">into_token_stream</span>().<span class="ident">into</span>(),
         <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">err</span>.<span class="ident">to_compile_error</span>().<span class="ident">into</span>(),

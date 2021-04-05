@@ -598,7 +598,7 @@
 
     <span class="kw">fn</span> <span class="ident">update</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">pos</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="macro">write</span><span class="macro">!</span>(
+        <span class="macro">write!</span>(
             <span class="self">self</span>,
             <span class="string">&quot;{}&quot;</span>,
             <span class="ident">OffsetDateTime</span>::<span class="ident">now_utc</span>().<span class="ident">format</span>(<span class="string">&quot;%a, %d %b %Y %H:%M:%S GMT&quot;</span>)
@@ -669,7 +669,7 @@
 <span class="kw">mod</span> <span class="ident">notify_on_drop</span> {
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::<span class="ident">RefCell</span>;
 
-    <span class="macro">thread_local</span><span class="macro">!</span> {
+    <span class="macro">thread_local!</span> {
         <span class="kw">static</span> <span class="ident">NOTIFY_DROPPED</span>: <span class="ident">RefCell</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RefCell</span>::<span class="ident">new</span>(<span class="prelude-val">None</span>);
     }
 
@@ -695,7 +695,7 @@
             <span class="ident">NOTIFY_DROPPED</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">bool</span><span class="op">|</span> {
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bool</span> <span class="op">=</span> <span class="ident">bool</span>.<span class="ident">borrow_mut</span>();
                 <span class="kw">if</span> <span class="ident">bool</span>.<span class="ident">is_some</span>() {
-                    <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;NotifyOnDrop existed on current thread&quot;</span>);
+                    <span class="macro">panic!</span>(<span class="string">&quot;NotifyOnDrop existed on current thread&quot;</span>);
                 } <span class="kw">else</span> {
                     <span class="kw-2">*</span><span class="ident">bool</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="bool-val">false</span>);
                 }
@@ -739,12 +739,12 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf2</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">with_capacity</span>(<span class="ident">DATE_VALUE_LENGTH</span> <span class="op">+</span> <span class="number">10</span>);
         <span class="ident">settings</span>.<span class="ident">set_date</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf2</span>);
 
-        <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">now1</span>, <span class="ident">now2</span>);
+        <span class="macro">assert_ne!</span>(<span class="ident">now1</span>, <span class="ident">now2</span>);
 
-        <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">buf1</span>, <span class="ident">buf2</span>);
+        <span class="macro">assert_ne!</span>(<span class="ident">buf1</span>, <span class="ident">buf2</span>);
 
         <span class="ident">drop</span>(<span class="ident">settings</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
+        <span class="macro">assert!</span>(<span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -759,19 +759,19 @@
         <span class="kw">let</span> <span class="ident">clone3</span> <span class="op">=</span> <span class="ident">service</span>.<span class="ident">clone</span>();
 
         <span class="ident">drop</span>(<span class="ident">clone1</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
+        <span class="macro">assert_eq!</span>(<span class="bool-val">false</span>, <span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
         <span class="ident">drop</span>(<span class="ident">clone2</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
+        <span class="macro">assert_eq!</span>(<span class="bool-val">false</span>, <span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
         <span class="ident">drop</span>(<span class="ident">clone3</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="bool-val">false</span>, <span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
+        <span class="macro">assert_eq!</span>(<span class="bool-val">false</span>, <span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
 
         <span class="ident">drop</span>(<span class="ident">service</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
+        <span class="macro">assert!</span>(<span class="ident">notify_on_drop</span>::<span class="ident">is_dropped</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_date_len</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">DATE_VALUE_LENGTH</span>, <span class="string">&quot;Sun, 06 Nov 1994 08:49:37 GMT&quot;</span>.<span class="ident">len</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">DATE_VALUE_LENGTH</span>, <span class="string">&quot;Sun, 06 Nov 1994 08:49:37 GMT&quot;</span>.<span class="ident">len</span>());
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -781,7 +781,7 @@
         <span class="ident">settings</span>.<span class="ident">set_date</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf1</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf2</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">with_capacity</span>(<span class="ident">DATE_VALUE_LENGTH</span> <span class="op">+</span> <span class="number">10</span>);
         <span class="ident">settings</span>.<span class="ident">set_date</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf2</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">buf1</span>, <span class="ident">buf2</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">buf1</span>, <span class="ident">buf2</span>);
     }
 }
 </pre></div>

@@ -61,12 +61,10 @@
 <span id="60">60</span>
 <span id="61">61</span>
 <span id="62">62</span>
-<span id="63">63</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">fmt</span>, <span class="ident">str</span>::<span class="ident">FromStr</span>};
 
-<span class="kw">use</span> <span class="ident">http</span>::<span class="ident">HeaderValue</span>;
-
+<span class="kw">use</span> <span class="kw">super</span>::<span class="ident">HeaderValue</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">error</span>::<span class="ident">ParseError</span>, <span class="ident">header</span>::<span class="ident">HTTP_VALUE</span>};
 
 <span class="doccomment">/// Reads a comma-delimited raw header into a Vec.</span>

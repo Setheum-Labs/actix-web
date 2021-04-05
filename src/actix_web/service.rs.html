@@ -746,6 +746,12 @@
 <span id="745">745</span>
 <span id="746">746</span>
 <span id="747">747</span>
+<span id="748">748</span>
+<span id="749">749</span>
+<span id="750">750</span>
+<span id="751">751</span>
+<span id="752">752</span>
+<span id="753">753</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">cell</span>::{<span class="ident">Ref</span>, <span class="ident">RefMut</span>};
 <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">rc</span>::<span class="ident">Rc</span>;
@@ -816,6 +822,12 @@
     <span class="doccomment">/// Construct service request</span>
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">req</span>: <span class="ident">HttpRequest</span>, <span class="ident">payload</span>: <span class="ident">Payload</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> { <span class="ident">req</span>, <span class="ident">payload</span> }
+    }
+
+    <span class="doccomment">/// Construct service request.</span>
+    <span class="attribute">#[<span class="ident">doc</span>(<span class="ident">hidden</span>)]</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">__priv_test_new</span>(<span class="ident">req</span>: <span class="ident">HttpRequest</span>, <span class="ident">payload</span>: <span class="ident">Payload</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+        <span class="self">Self</span>::<span class="ident">new</span>(<span class="ident">req</span>, <span class="ident">payload</span>)
     }
 
     <span class="doccomment">/// Deconstruct request into parts</span>
@@ -1035,7 +1047,7 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">ServiceRequest</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">writeln</span><span class="macro">!</span>(
+        <span class="macro">writeln!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;\nServiceRequest {:?} {}:{}&quot;</span>,
             <span class="self">self</span>.<span class="ident">head</span>().<span class="ident">version</span>,
@@ -1043,14 +1055,14 @@
             <span class="self">self</span>.<span class="ident">path</span>()
         )<span class="question-mark">?</span>;
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">query_string</span>().<span class="ident">is_empty</span>() {
-            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  query: ?{:?}&quot;</span>, <span class="self">self</span>.<span class="ident">query_string</span>())<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  query: ?{:?}&quot;</span>, <span class="self">self</span>.<span class="ident">query_string</span>())<span class="question-mark">?</span>;
         }
         <span class="kw">if</span> <span class="op">!</span><span class="self">self</span>.<span class="ident">match_info</span>().<span class="ident">is_empty</span>() {
-            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  params: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">match_info</span>())<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  params: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">match_info</span>())<span class="question-mark">?</span>;
         }
-        <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>)<span class="question-mark">?</span>;
+        <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>)<span class="question-mark">?</span>;
         <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">val</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">headers</span>().<span class="ident">iter</span>() {
-            <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
+            <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
     }
@@ -1169,18 +1181,18 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">MessageBody</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">ServiceResponse</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">writeln!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;\nServiceResponse {:?} {}{}&quot;</span>,
             <span class="self">self</span>.<span class="ident">response</span>.<span class="ident">head</span>().<span class="ident">version</span>,
             <span class="self">self</span>.<span class="ident">response</span>.<span class="ident">head</span>().<span class="ident">status</span>,
             <span class="self">self</span>.<span class="ident">response</span>.<span class="ident">head</span>().<span class="ident">reason</span>.<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>),
         );
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>);
         <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">val</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">response</span>.<span class="ident">head</span>().<span class="ident">headers</span>.<span class="ident">iter</span>() {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>);
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>);
         }
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  body: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">response</span>.<span class="ident">body</span>().<span class="ident">size</span>());
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  body: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">response</span>.<span class="ident">body</span>().<span class="ident">size</span>());
         <span class="ident">res</span>
     }
 }
@@ -1315,14 +1327,14 @@
 <span class="doccomment">/// ));</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">macro_export</span>]</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">services</span> {
+<span class="macro">macro_rules!</span> <span class="ident">services</span> {
     ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>:<span class="ident">expr</span>),<span class="op">+</span> $(,)<span class="question-mark">?</span>) <span class="op">=</span><span class="op">&gt;</span> {
         ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">x</span>,)<span class="op">+</span>)
     }
 }
 
 <span class="doccomment">/// HttpServiceFactory trait impl for tuples</span>
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">service_tuple</span> ({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>)<span class="op">+</span> } <span class="op">=</span><span class="op">&gt;</span> {
+<span class="macro">macro_rules!</span> <span class="ident">service_tuple</span> ({ $(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>)<span class="op">+</span> } <span class="op">=</span><span class="op">&gt;</span> {
     <span class="kw">impl</span><span class="op">&lt;</span>$(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>: <span class="ident">HttpServiceFactory</span>),<span class="op">+</span><span class="op">&gt;</span> <span class="ident">HttpServiceFactory</span> <span class="kw">for</span> ($(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>,)<span class="op">+</span>) {
         <span class="attribute">#[<span class="ident">allow</span>(<span class="ident">non_snake_case</span>)]</span>
         <span class="kw">fn</span> <span class="ident">register</span>(<span class="self">self</span>, <span class="ident">config</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">AppService</span>) {
@@ -1332,18 +1344,18 @@
     }
 });
 
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> }
-<span class="macro">service_tuple</span><span class="macro">!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> <span class="ident">L</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> }
+<span class="macro">service_tuple!</span> { <span class="ident">A</span> <span class="ident">B</span> <span class="ident">C</span> <span class="ident">D</span> <span class="ident">E</span> <span class="ident">F</span> <span class="ident">G</span> <span class="ident">H</span> <span class="ident">I</span> <span class="ident">J</span> <span class="ident">K</span> <span class="ident">L</span> }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
 <span class="kw">mod</span> <span class="ident">tests</span> {
@@ -1351,7 +1363,7 @@
     <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">test</span>::{<span class="ident">init_service</span>, <span class="ident">TestRequest</span>};
     <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">guard</span>, <span class="ident">http</span>, <span class="ident">web</span>, <span class="ident">App</span>, <span class="ident">HttpResponse</span>};
     <span class="kw">use</span> <span class="ident">actix_service</span>::<span class="ident">Service</span>;
-    <span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::<span class="ident">ok</span>;
+    <span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::<span class="ident">ok</span>;
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_service</span>() {
@@ -1363,7 +1375,7 @@
         .<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">init_service</span>(
             <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">web</span>::<span class="ident">service</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">guard</span>(<span class="ident">guard</span>::<span class="ident">Get</span>()).<span class="ident">finish</span>(
@@ -1375,7 +1387,7 @@
             .<span class="ident">method</span>(<span class="ident">http</span>::<span class="ident">Method</span>::<span class="ident">PUT</span>)
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1386,7 +1398,7 @@
                     .<span class="ident">data</span>(<span class="number">42u32</span>)
                     .<span class="ident">service</span>(<span class="ident">web</span>::<span class="ident">service</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">name</span>(<span class="string">&quot;test&quot;</span>).<span class="ident">finish</span>(
                         <span class="op">|</span><span class="ident">req</span>: <span class="ident">ServiceRequest</span><span class="op">|</span> {
-                            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">app_data</span>::<span class="op">&lt;</span><span class="ident">web</span>::<span class="ident">Data</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(), <span class="kw-2">&amp;</span><span class="number">42</span>);
+                            <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">app_data</span>::<span class="op">&lt;</span><span class="ident">web</span>::<span class="ident">Data</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>().<span class="ident">as_ref</span>(), <span class="kw-2">&amp;</span><span class="number">42</span>);
                             <span class="ident">ok</span>(<span class="ident">req</span>.<span class="ident">into_response</span>(<span class="ident">HttpResponse</span>::<span class="prelude-val">Ok</span>().<span class="ident">finish</span>()))
                         },
                     )),
@@ -1394,7 +1406,7 @@
             .<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1403,24 +1415,24 @@
             .<span class="ident">uri</span>(<span class="string">&quot;/index.html?test=1&quot;</span>)
             .<span class="ident">insert_header</span>((<span class="string">&quot;x-test&quot;</span>, <span class="string">&quot;111&quot;</span>))
             .<span class="ident">to_srv_request</span>();
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">req</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;ServiceRequest&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;test=1&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;x-test&quot;</span>));
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">req</span>);
+        <span class="macro">assert!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;ServiceRequest&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;test=1&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;x-test&quot;</span>));
 
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">HttpResponse</span>::<span class="prelude-val">Ok</span>().<span class="ident">insert_header</span>((<span class="string">&quot;x-test&quot;</span>, <span class="string">&quot;111&quot;</span>)).<span class="ident">finish</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">post</span>()
             .<span class="ident">uri</span>(<span class="string">&quot;/index.html?test=1&quot;</span>)
             .<span class="ident">to_srv_response</span>(<span class="ident">res</span>);
 
-        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">res</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;ServiceResponse&quot;</span>));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;x-test&quot;</span>));
+        <span class="kw">let</span> <span class="ident">s</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">res</span>);
+        <span class="macro">assert!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;ServiceResponse&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">s</span>.<span class="ident">contains</span>(<span class="string">&quot;x-test&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_services_macro</span>() {
-        <span class="kw">let</span> <span class="ident">scoped</span> <span class="op">=</span> <span class="macro">services</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">scoped</span> <span class="op">=</span> <span class="macro">services!</span>[
             <span class="ident">web</span>::<span class="ident">service</span>(<span class="string">&quot;/scoped_test1&quot;</span>).<span class="ident">name</span>(<span class="string">&quot;scoped_test1&quot;</span>).<span class="ident">finish</span>(
                 <span class="op">|</span><span class="ident">req</span>: <span class="ident">ServiceRequest</span><span class="op">|</span> <span class="kw">async</span> {
                     <span class="prelude-val">Ok</span>(<span class="ident">req</span>.<span class="ident">into_response</span>(<span class="ident">HttpResponse</span>::<span class="prelude-val">Ok</span>().<span class="ident">finish</span>()))
@@ -1429,7 +1441,7 @@
             <span class="ident">web</span>::<span class="ident">resource</span>(<span class="string">&quot;/scoped_test2&quot;</span>).<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> { <span class="string">&quot;test2&quot;</span> }),
         ];
 
-        <span class="kw">let</span> <span class="ident">services</span> <span class="op">=</span> <span class="macro">services</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">services</span> <span class="op">=</span> <span class="macro">services!</span>[
             <span class="ident">web</span>::<span class="ident">service</span>(<span class="string">&quot;/test1&quot;</span>)
                 .<span class="ident">name</span>(<span class="string">&quot;test&quot;</span>)
                 .<span class="ident">finish</span>(<span class="op">|</span><span class="ident">req</span>: <span class="ident">ServiceRequest</span><span class="op">|</span> <span class="kw">async</span> {
@@ -1443,29 +1455,29 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test1&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test2&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test3/scoped_test1&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test3/scoped_test2&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_services_vec</span>() {
-        <span class="kw">let</span> <span class="ident">services</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">services</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="ident">web</span>::<span class="ident">resource</span>(<span class="string">&quot;/test1&quot;</span>).<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> { <span class="string">&quot;test1&quot;</span> }),
             <span class="ident">web</span>::<span class="ident">resource</span>(<span class="string">&quot;/test2&quot;</span>).<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> { <span class="string">&quot;test2&quot;</span> }),
         ];
 
-        <span class="kw">let</span> <span class="ident">scoped</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
+        <span class="kw">let</span> <span class="ident">scoped</span> <span class="op">=</span> <span class="macro">vec!</span>[
             <span class="ident">web</span>::<span class="ident">resource</span>(<span class="string">&quot;/scoped_test1&quot;</span>).<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> { <span class="string">&quot;test1&quot;</span> }),
             <span class="ident">web</span>::<span class="ident">resource</span>(<span class="string">&quot;/scoped_test2&quot;</span>).<span class="ident">to</span>(<span class="op">|</span><span class="op">|</span> <span class="kw">async</span> { <span class="string">&quot;test2&quot;</span> }),
         ];
@@ -1479,19 +1491,19 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test1&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test2&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test3/scoped_test1&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/test3/scoped_test2&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">call</span>(<span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">http</span>::<span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 }
 </pre></div>

@@ -449,13 +449,13 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;text/plain&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">content_type</span>(), <span class="string">&quot;text/plain&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">content_type</span>(), <span class="string">&quot;text/plain&quot;</span>);
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json; charset=utf=8&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">content_type</span>(), <span class="string">&quot;application/json&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">content_type</span>(), <span class="string">&quot;application/json&quot;</span>);
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">content_type</span>(), <span class="string">&quot;&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">content_type</span>(), <span class="string">&quot;&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -463,16 +463,16 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">mime_type</span>().<span class="ident">unwrap</span>(), <span class="prelude-val">Some</span>(<span class="ident">mime</span>::<span class="ident">APPLICATION_JSON</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">mime_type</span>().<span class="ident">unwrap</span>(), <span class="prelude-val">Some</span>(<span class="ident">mime</span>::<span class="ident">APPLICATION_JSON</span>));
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">mime_type</span>().<span class="ident">unwrap</span>(), <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">mime_type</span>().<span class="ident">unwrap</span>(), <span class="prelude-val">None</span>);
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json; charset=utf-8&quot;</span>))
             .<span class="ident">finish</span>();
         <span class="kw">let</span> <span class="ident">mt</span> <span class="op">=</span> <span class="ident">req</span>.<span class="ident">mime_type</span>().<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">get_param</span>(<span class="ident">mime</span>::<span class="ident">CHARSET</span>), <span class="prelude-val">Some</span>(<span class="ident">mime</span>::<span class="ident">UTF_8</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">type_</span>(), <span class="ident">mime</span>::<span class="ident">APPLICATION</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">mt</span>.<span class="ident">subtype</span>(), <span class="ident">mime</span>::<span class="ident">JSON</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">mt</span>.<span class="ident">get_param</span>(<span class="ident">mime</span>::<span class="ident">CHARSET</span>), <span class="prelude-val">Some</span>(<span class="ident">mime</span>::<span class="ident">UTF_8</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">mt</span>.<span class="ident">type_</span>(), <span class="ident">mime</span>::<span class="ident">APPLICATION</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">mt</span>.<span class="ident">subtype</span>(), <span class="ident">mime</span>::<span class="ident">JSON</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -480,23 +480,23 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;applicationadfadsfasdflknadsfklnadsfjson&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Err</span>(<span class="ident">ContentTypeError</span>::<span class="ident">ParseError</span>), <span class="ident">req</span>.<span class="ident">mime_type</span>());
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Err</span>(<span class="ident">ContentTypeError</span>::<span class="ident">ParseError</span>), <span class="ident">req</span>.<span class="ident">mime_type</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_encoding</span>() {
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">UTF_8</span>.<span class="ident">name</span>(), <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">UTF_8</span>.<span class="ident">name</span>(), <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>());
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">UTF_8</span>.<span class="ident">name</span>(), <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">UTF_8</span>.<span class="ident">name</span>(), <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">unwrap</span>().<span class="ident">name</span>());
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json; charset=ISO-8859-2&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ISO_8859_2</span>, <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">ISO_8859_2</span>, <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">unwrap</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -504,12 +504,12 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;applicatjson&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="prelude-val">Some</span>(<span class="ident">ContentTypeError</span>::<span class="ident">ParseError</span>), <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">err</span>());
+        <span class="macro">assert_eq!</span>(<span class="prelude-val">Some</span>(<span class="ident">ContentTypeError</span>::<span class="ident">ParseError</span>), <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">err</span>());
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="string">&quot;content-type&quot;</span>, <span class="string">&quot;application/json; charset=kkkttktk&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="prelude-val">Some</span>(<span class="ident">ContentTypeError</span>::<span class="ident">UnknownEncoding</span>),
             <span class="ident">req</span>.<span class="ident">encoding</span>().<span class="ident">err</span>()
         );
@@ -518,12 +518,12 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_chunked</span>() {
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">finish</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">TRANSFER_ENCODING</span>, <span class="string">&quot;chunked&quot;</span>))
             .<span class="ident">finish</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((
@@ -531,7 +531,7 @@
                 <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;some va\xadscc\xacas0xsdasdlue&quot;</span>),
             ))
             .<span class="ident">finish</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">is_err</span>());
     }
 }
 </pre></div>

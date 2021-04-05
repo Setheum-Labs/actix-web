@@ -299,17 +299,17 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_parse</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Us_Ascii</span>, <span class="string">&quot;us-ascii&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Us_Ascii</span>, <span class="string">&quot;US-Ascii&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Us_Ascii</span>, <span class="string">&quot;US-ASCII&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Shift_Jis</span>, <span class="string">&quot;Shift-JIS&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">Ext</span>(<span class="string">&quot;ABCD&quot;</span>.<span class="ident">to_owned</span>()), <span class="string">&quot;abcd&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">Us_Ascii</span>, <span class="string">&quot;us-ascii&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">Us_Ascii</span>, <span class="string">&quot;US-Ascii&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">Us_Ascii</span>, <span class="string">&quot;US-ASCII&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">Shift_Jis</span>, <span class="string">&quot;Shift-JIS&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">Ext</span>(<span class="string">&quot;ABCD&quot;</span>.<span class="ident">to_owned</span>()), <span class="string">&quot;abcd&quot;</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_display</span>() {
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;US-ASCII&quot;</span>, <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Us_Ascii</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;ABCD&quot;</span>, <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Ext</span>(<span class="string">&quot;ABCD&quot;</span>.<span class="ident">to_owned</span>())));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;US-ASCII&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Us_Ascii</span>));
+        <span class="macro">assert_eq!</span>(<span class="string">&quot;ABCD&quot;</span>, <span class="macro">format!</span>(<span class="string">&quot;{}&quot;</span>, <span class="ident">Ext</span>(<span class="string">&quot;ABCD&quot;</span>.<span class="ident">to_owned</span>())));
     }
 }
 </pre></div>

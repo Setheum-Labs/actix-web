@@ -516,7 +516,7 @@
     <span class="ident">Upgrade</span>,
 }
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
+<span class="macro">bitflags!</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Flags</span>: <span class="ident">u8</span> {
         <span class="kw">const</span> <span class="ident">CLOSE</span>       <span class="op">=</span> <span class="number">0b0000_0001</span>;
         <span class="kw">const</span> <span class="ident">KEEP_ALIVE</span>  <span class="op">=</span> <span class="number">0b0000_0010</span>;
@@ -920,8 +920,8 @@
 <span class="doccomment">/// Request&#39;s objects pool</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BoxedResponsePool</span>(<span class="ident">RefCell</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Box</span><span class="op">&lt;</span><span class="ident">ResponseHead</span><span class="op">&gt;</span><span class="op">&gt;</span><span class="op">&gt;</span>);
 
-<span class="macro">thread_local</span><span class="macro">!</span>(<span class="kw">static</span> <span class="ident">REQUEST_POOL</span>: <span class="ident">MessagePool</span><span class="op">&lt;</span><span class="ident">RequestHead</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">MessagePool</span>::<span class="op">&lt;</span><span class="ident">RequestHead</span><span class="op">&gt;</span>::<span class="ident">create</span>());
-<span class="macro">thread_local</span><span class="macro">!</span>(<span class="kw">static</span> <span class="ident">RESPONSE_POOL</span>: <span class="ident">BoxedResponsePool</span> <span class="op">=</span> <span class="ident">BoxedResponsePool</span>::<span class="ident">create</span>());
+<span class="macro">thread_local!</span>(<span class="kw">static</span> <span class="ident">REQUEST_POOL</span>: <span class="ident">MessagePool</span><span class="op">&lt;</span><span class="ident">RequestHead</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">MessagePool</span>::<span class="op">&lt;</span><span class="ident">RequestHead</span><span class="op">&gt;</span>::<span class="ident">create</span>());
+<span class="macro">thread_local!</span>(<span class="kw">static</span> <span class="ident">RESPONSE_POOL</span>: <span class="ident">BoxedResponsePool</span> <span class="op">=</span> <span class="ident">BoxedResponsePool</span>::<span class="ident">create</span>());
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Head</span><span class="op">&gt;</span> <span class="ident">MessagePool</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">create</span>() <span class="op">-</span><span class="op">&gt;</span> <span class="ident">MessagePool</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span> {

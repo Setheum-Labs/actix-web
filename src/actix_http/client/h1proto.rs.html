@@ -226,17 +226,6 @@
 <span id="225">225</span>
 <span id="226">226</span>
 <span id="227">227</span>
-<span id="228">228</span>
-<span id="229">229</span>
-<span id="230">230</span>
-<span id="231">231</span>
-<span id="232">232</span>
-<span id="233">233</span>
-<span id="234">234</span>
-<span id="235">235</span>
-<span id="236">236</span>
-<span id="237">237</span>
-<span id="238">238</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">io</span>::<span class="ident">Write</span>,
@@ -245,10 +234,11 @@
 };
 
 <span class="kw">use</span> <span class="ident">actix_codec</span>::<span class="ident">Framed</span>;
+<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::<span class="ident">poll_fn</span>;
 <span class="kw">use</span> <span class="ident">bytes</span>::<span class="ident">buf</span>::<span class="ident">BufMut</span>;
 <span class="kw">use</span> <span class="ident">bytes</span>::{<span class="ident">Bytes</span>, <span class="ident">BytesMut</span>};
-<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">Stream</span>;
-<span class="kw">use</span> <span class="ident">futures_util</span>::{<span class="ident">future</span>::<span class="ident">poll_fn</span>, <span class="ident">SinkExt</span> <span class="kw">as</span> <span class="kw">_</span>};
+<span class="kw">use</span> <span class="ident">futures_core</span>::{<span class="ident">ready</span>, <span class="ident">Stream</span>};
+<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">SinkExt</span> <span class="kw">as</span> <span class="kw">_</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::<span class="ident">PayloadError</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">h1</span>;
@@ -257,7 +247,7 @@
     <span class="ident">StatusCode</span>,
 };
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">message</span>::{<span class="ident">RequestHeadType</span>, <span class="ident">ResponseHead</span>};
-<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">payload</span>::{<span class="ident">Payload</span>, <span class="ident">PayloadStream</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">payload</span>::<span class="ident">Payload</span>;
 
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">connection</span>::{<span class="ident">ConnectionIo</span>, <span class="ident">H1Connection</span>};
 <span class="kw">use</span> <span class="kw">super</span>::<span class="ident">error</span>::{<span class="ident">ConnectError</span>, <span class="ident">SendRequestError</span>};
@@ -280,8 +270,8 @@
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">wrt</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">with_capacity</span>(<span class="ident">host</span>.<span class="ident">len</span>() <span class="op">+</span> <span class="number">5</span>).<span class="ident">writer</span>();
 
             <span class="kw">match</span> <span class="ident">head</span>.<span class="ident">as_ref</span>().<span class="ident">uri</span>.<span class="ident">port_u16</span>() {
-                <span class="prelude-val">None</span> <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="number">80</span>) <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="number">443</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">wrt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">host</span>)<span class="question-mark">?</span>,
-                <span class="prelude-val">Some</span>(<span class="ident">port</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write</span><span class="macro">!</span>(<span class="ident">wrt</span>, <span class="string">&quot;{}:{}&quot;</span>, <span class="ident">host</span>, <span class="ident">port</span>)<span class="question-mark">?</span>,
+                <span class="prelude-val">None</span> <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="number">80</span>) <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="number">443</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">wrt</span>, <span class="string">&quot;{}&quot;</span>, <span class="ident">host</span>)<span class="question-mark">?</span>,
+                <span class="prelude-val">Some</span>(<span class="ident">port</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">write!</span>(<span class="ident">wrt</span>, <span class="string">&quot;{}:{}&quot;</span>, <span class="ident">host</span>, <span class="ident">port</span>)<span class="question-mark">?</span>,
             };
 
             <span class="kw">match</span> <span class="ident">wrt</span>.<span class="ident">get_mut</span>().<span class="ident">split</span>().<span class="ident">freeze</span>().<span class="ident">try_into_value</span>() {
@@ -294,7 +284,7 @@
                         <span class="ident">headers</span>.<span class="ident">insert</span>(<span class="ident">HOST</span>, <span class="ident">value</span>);
                     }
                 },
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Can not set HOST header {}&quot;</span>, <span class="ident">e</span>),
+                <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">log</span>::<span class="macro">error!</span>(<span class="string">&quot;Can not set HOST header {}&quot;</span>, <span class="ident">e</span>),
             }
         }
     }
@@ -362,10 +352,7 @@
 
             <span class="prelude-val">Ok</span>((<span class="ident">head</span>, <span class="ident">Payload</span>::<span class="prelude-val">None</span>))
         }
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {
-            <span class="kw">let</span> <span class="ident">pl</span>: <span class="ident">PayloadStream</span> <span class="op">=</span> <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">PlStream</span>::<span class="ident">new</span>(<span class="ident">framed</span>));
-            <span class="prelude-val">Ok</span>((<span class="ident">head</span>, <span class="ident">pl</span>.<span class="ident">into</span>()))
-        }
+        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>((<span class="ident">head</span>, <span class="ident">Payload</span>::<span class="ident">Stream</span>(<span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">PlStream</span>::<span class="ident">new</span>(<span class="ident">framed</span>))))),
     }
 }
 
@@ -397,7 +384,7 @@
     <span class="ident">Io</span>: <span class="ident">ConnectionIo</span>,
     <span class="ident">B</span>: <span class="ident">MessageBody</span>,
 {
-    <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">body</span>);
+    <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">body</span>);
 
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">eof</span> <span class="op">=</span> <span class="bool-val">false</span>;
     <span class="kw">while</span> <span class="op">!</span><span class="ident">eof</span> {
@@ -434,21 +421,16 @@
 }
 
 <span class="attribute">#[<span class="ident">pin_project</span>::<span class="ident">pin_project</span>]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">PlStream</span><span class="op">&lt;</span><span class="ident">Io</span>: <span class="ident">ConnectionIo</span><span class="op">&gt;</span>
-<span class="kw">where</span>
-    <span class="ident">Io</span>: <span class="ident">ConnectionIo</span>,
-{
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">PlStream</span><span class="op">&lt;</span><span class="ident">Io</span>: <span class="ident">ConnectionIo</span><span class="op">&gt;</span> {
     <span class="attribute">#[<span class="ident">pin</span>]</span>
-    <span class="ident">framed</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Framed</span><span class="op">&lt;</span><span class="ident">H1Connection</span><span class="op">&lt;</span><span class="ident">Io</span><span class="op">&gt;</span>, <span class="ident">h1</span>::<span class="ident">ClientPayloadCodec</span><span class="op">&gt;</span><span class="op">&gt;</span>,
+    <span class="ident">framed</span>: <span class="ident">Framed</span><span class="op">&lt;</span><span class="ident">H1Connection</span><span class="op">&lt;</span><span class="ident">Io</span><span class="op">&gt;</span>, <span class="ident">h1</span>::<span class="ident">ClientPayloadCodec</span><span class="op">&gt;</span>,
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">Io</span>: <span class="ident">ConnectionIo</span><span class="op">&gt;</span> <span class="ident">PlStream</span><span class="op">&lt;</span><span class="ident">Io</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">framed</span>: <span class="ident">Framed</span><span class="op">&lt;</span><span class="ident">H1Connection</span><span class="op">&lt;</span><span class="ident">Io</span><span class="op">&gt;</span>, <span class="ident">h1</span>::<span class="ident">ClientCodec</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="ident">framed</span> <span class="op">=</span> <span class="ident">framed</span>.<span class="ident">into_map_codec</span>(<span class="op">|</span><span class="ident">codec</span><span class="op">|</span> <span class="ident">codec</span>.<span class="ident">into_payload_codec</span>());
 
-        <span class="ident">PlStream</span> {
-            <span class="ident">framed</span>: <span class="prelude-val">Some</span>(<span class="ident">framed</span>),
-        }
+        <span class="ident">PlStream</span> { <span class="ident">framed</span> }
     }
 }
 
@@ -459,20 +441,16 @@
         <span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>,
         <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">framed</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>().<span class="ident">framed</span>.<span class="ident">as_pin_mut</span>().<span class="ident">unwrap</span>();
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
 
-        <span class="kw">match</span> <span class="ident">framed</span>.<span class="ident">as_mut</span>().<span class="ident">next_item</span>(<span class="ident">cx</span>)<span class="question-mark">?</span> {
-            <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Pending</span>,
-            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="ident">chunk</span>)) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">chunk</span>) <span class="op">=</span> <span class="ident">chunk</span> {
-                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">chunk</span>)))
-                } <span class="kw">else</span> {
-                    <span class="kw">let</span> <span class="ident">keep_alive</span> <span class="op">=</span> <span class="ident">framed</span>.<span class="ident">codec_ref</span>().<span class="ident">keepalive</span>();
-                    <span class="ident">framed</span>.<span class="ident">io_mut</span>().<span class="ident">on_release</span>(<span class="ident">keep_alive</span>);
-                    <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>)
-                }
+        <span class="kw">match</span> <span class="macro">ready!</span>(<span class="ident">this</span>.<span class="ident">framed</span>.<span class="ident">as_mut</span>().<span class="ident">next_item</span>(<span class="ident">cx</span>)<span class="question-mark">?</span>) {
+            <span class="prelude-val">Some</span>(<span class="prelude-val">Some</span>(<span class="ident">chunk</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Some</span>(<span class="prelude-val">Ok</span>(<span class="ident">chunk</span>))),
+            <span class="prelude-val">Some</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> {
+                <span class="kw">let</span> <span class="ident">keep_alive</span> <span class="op">=</span> <span class="ident">this</span>.<span class="ident">framed</span>.<span class="ident">codec_ref</span>().<span class="ident">keepalive</span>();
+                <span class="ident">this</span>.<span class="ident">framed</span>.<span class="ident">io_mut</span>().<span class="ident">on_release</span>(<span class="ident">keep_alive</span>);
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>)
             }
-            <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>),
+            <span class="prelude-val">None</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">None</span>),
         }
     }
 }

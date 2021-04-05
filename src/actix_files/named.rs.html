@@ -509,7 +509,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">ChunkedReadFile</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">encoding</span>::<span class="ident">equiv_utf8_text</span>, <span class="ident">range</span>::<span class="ident">HttpRange</span>};
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
+<span class="macro">bitflags!</span> {
     <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Flags</span>: <span class="ident">u8</span> {
         <span class="kw">const</span> <span class="ident">ETAG</span> <span class="op">=</span>                <span class="number">0b0000_0001</span>;
         <span class="kw">const</span> <span class="ident">LAST_MD</span> <span class="op">=</span>             <span class="number">0b0000_0010</span>;
@@ -584,7 +584,7 @@
             };
 
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">parameters</span> <span class="op">=</span>
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">DispositionParam</span>::<span class="ident">Filename</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>()))];
+                <span class="macro">vec!</span>[<span class="ident">DispositionParam</span>::<span class="ident">Filename</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="ident">filename</span>.<span class="ident">as_ref</span>()))];
 
             <span class="kw">if</span> <span class="op">!</span><span class="ident">filename</span>.<span class="ident">is_ascii</span>() {
                 <span class="ident">parameters</span>.<span class="ident">push</span>(<span class="ident">DispositionParam</span>::<span class="ident">FilenameExt</span>(<span class="ident">ExtendedValue</span> {
@@ -746,7 +746,7 @@
                 .<span class="ident">duration_since</span>(<span class="ident">UNIX_EPOCH</span>)
                 .<span class="ident">expect</span>(<span class="string">&quot;modification time must be after epoch&quot;</span>);
 
-            <span class="ident">header</span>::<span class="ident">EntityTag</span>::<span class="ident">strong</span>(<span class="macro">format</span><span class="macro">!</span>(
+            <span class="ident">header</span>::<span class="ident">EntityTag</span>::<span class="ident">strong</span>(<span class="macro">format!</span>(
                 <span class="string">&quot;{:x}:{:x}:{:x}:{:x}&quot;</span>,
                 <span class="ident">ino</span>,
                 <span class="self">self</span>.<span class="ident">md</span>.<span class="ident">len</span>(),
@@ -880,10 +880,10 @@
                     <span class="ident">resp</span>.<span class="ident">encoding</span>(<span class="ident">ContentEncoding</span>::<span class="ident">Identity</span>);
                     <span class="ident">resp</span>.<span class="ident">insert_header</span>((
                         <span class="ident">header</span>::<span class="ident">CONTENT_RANGE</span>,
-                        <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;bytes {}-{}/{}&quot;</span>, <span class="ident">offset</span>, <span class="ident">offset</span> <span class="op">+</span> <span class="ident">length</span> <span class="op">-</span> <span class="number">1</span>, <span class="self">self</span>.<span class="ident">md</span>.<span class="ident">len</span>()),
+                        <span class="macro">format!</span>(<span class="string">&quot;bytes {}-{}/{}&quot;</span>, <span class="ident">offset</span>, <span class="ident">offset</span> <span class="op">+</span> <span class="ident">length</span> <span class="op">-</span> <span class="number">1</span>, <span class="self">self</span>.<span class="ident">md</span>.<span class="ident">len</span>()),
                     ));
                 } <span class="kw">else</span> {
-                    <span class="ident">resp</span>.<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_RANGE</span>, <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;bytes */{}&quot;</span>, <span class="ident">length</span>)));
+                    <span class="ident">resp</span>.<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_RANGE</span>, <span class="macro">format!</span>(<span class="string">&quot;bytes */{}&quot;</span>, <span class="ident">length</span>)));
                     <span class="kw">return</span> <span class="ident">resp</span>.<span class="ident">status</span>(<span class="ident">StatusCode</span>::<span class="ident">RANGE_NOT_SATISFIABLE</span>).<span class="ident">finish</span>();
                 };
             } <span class="kw">else</span> {

@@ -281,10 +281,12 @@
 <span id="278">278</span>
 <span id="279">279</span>
 <span id="280">280</span>
+<span id="281">281</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{<span class="ident">cell</span>::<span class="ident">RefCell</span>, <span class="ident">fmt</span>, <span class="ident">io</span>, <span class="ident">path</span>::<span class="ident">PathBuf</span>, <span class="ident">rc</span>::<span class="ident">Rc</span>};
 
 <span class="kw">use</span> <span class="ident">actix_service</span>::{<span class="ident">boxed</span>, <span class="ident">IntoServiceFactory</span>, <span class="ident">ServiceFactory</span>, <span class="ident">ServiceFactoryExt</span>};
+<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::<span class="ident">ok</span>;
 <span class="kw">use</span> <span class="ident">actix_web</span>::{
     <span class="ident">dev</span>::{<span class="ident">AppService</span>, <span class="ident">HttpServiceFactory</span>, <span class="ident">ResourceDef</span>, <span class="ident">ServiceRequest</span>, <span class="ident">ServiceResponse</span>},
     <span class="ident">error</span>::<span class="ident">Error</span>,
@@ -292,7 +294,7 @@
     <span class="ident">http</span>::<span class="ident">header</span>::<span class="ident">DispositionType</span>,
     <span class="ident">HttpRequest</span>,
 };
-<span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::{<span class="ident">ok</span>, <span class="ident">FutureExt</span>, <span class="ident">LocalBoxFuture</span>};
+<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">future</span>::<span class="ident">LocalBoxFuture</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{
     <span class="ident">directory_listing</span>, <span class="ident">named</span>, <span class="ident">Directory</span>, <span class="ident">DirectoryRenderer</span>, <span class="ident">FilesService</span>, <span class="ident">HttpNewService</span>,
@@ -372,7 +374,7 @@
         <span class="kw">let</span> <span class="ident">dir</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">orig_dir</span>.<span class="ident">canonicalize</span>() {
             <span class="prelude-val">Ok</span>(<span class="ident">canon_dir</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">canon_dir</span>,
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Specified path is not a directory: {:?}&quot;</span>, <span class="ident">orig_dir</span>);
+                <span class="ident">log</span>::<span class="macro">error!</span>(<span class="string">&quot;Specified path is not a directory: {:?}&quot;</span>, <span class="ident">orig_dir</span>);
                 <span class="ident">PathBuf</span>::<span class="ident">new</span>()
             }
         };
@@ -547,18 +549,18 @@
         };
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="ident">default</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>.<span class="ident">default</span>.<span class="ident">borrow</span>() {
-            <span class="ident">default</span>
-                .<span class="ident">new_service</span>(())
-                .<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">result</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">result</span> {
+            <span class="kw">let</span> <span class="ident">fut</span> <span class="op">=</span> <span class="ident">default</span>.<span class="ident">new_service</span>(());
+            <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="kw">async</span> {
+                <span class="kw">match</span> <span class="ident">fut</span>.<span class="kw">await</span> {
                     <span class="prelude-val">Ok</span>(<span class="ident">default</span>) <span class="op">=</span><span class="op">&gt;</span> {
                         <span class="ident">srv</span>.<span class="ident">default</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">default</span>);
                         <span class="prelude-val">Ok</span>(<span class="ident">srv</span>)
                     }
                     <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(()),
-                })
-                .<span class="ident">boxed_local</span>()
+                }
+            })
         } <span class="kw">else</span> {
-            <span class="ident">ok</span>(<span class="ident">srv</span>).<span class="ident">boxed_local</span>()
+            <span class="ident">Box</span>::<span class="ident">pin</span>(<span class="ident">ok</span>(<span class="ident">srv</span>))
         }
     }
 }

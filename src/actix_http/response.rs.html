@@ -1234,7 +1234,7 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_error</span>(<span class="ident">error</span>: <span class="ident">Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Response</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">error</span>.<span class="ident">as_response_error</span>().<span class="ident">error_response</span>();
         <span class="kw">if</span> <span class="ident">resp</span>.<span class="ident">head</span>.<span class="ident">status</span> <span class="op">=</span><span class="op">=</span> <span class="ident">StatusCode</span>::<span class="ident">INTERNAL_SERVER_ERROR</span> {
-            <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Internal Server Error: {:?}&quot;</span>, <span class="ident">error</span>);
+            <span class="macro">error!</span>(<span class="string">&quot;Internal Server Error: {:?}&quot;</span>, <span class="ident">error</span>);
         }
         <span class="ident">resp</span>.<span class="ident">error</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">error</span>);
         <span class="ident">resp</span>
@@ -1448,18 +1448,18 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="ident">B</span>: <span class="ident">MessageBody</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Response</span><span class="op">&lt;</span><span class="ident">B</span><span class="op">&gt;</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">writeln!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;\nResponse {:?} {}{}&quot;</span>,
             <span class="self">self</span>.<span class="ident">head</span>.<span class="ident">version</span>,
             <span class="self">self</span>.<span class="ident">head</span>.<span class="ident">status</span>,
             <span class="self">self</span>.<span class="ident">head</span>.<span class="ident">reason</span>.<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>),
         );
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>);
         <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">val</span>) <span class="kw">in</span> <span class="self">self</span>.<span class="ident">head</span>.<span class="ident">headers</span>.<span class="ident">iter</span>() {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>);
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>);
         }
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  body: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">body</span>.<span class="ident">size</span>());
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  body: {:?}&quot;</span>, <span class="self">self</span>.<span class="ident">body</span>.<span class="ident">size</span>());
         <span class="ident">res</span>
     }
 }
@@ -1531,10 +1531,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use actix_http::Response;</span>
-    <span class="doccomment">/// use actix_http::http::header::ContentType;</span>
+    <span class="doccomment">/// use actix_http::http::header;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Response::Ok()</span>
-    <span class="doccomment">///     .insert_header(ContentType(mime::APPLICATION_JSON))</span>
+    <span class="doccomment">///     .insert_header((header::CONTENT_TYPE, mime::APPLICATION_JSON))</span>
     <span class="doccomment">///     .insert_header((&quot;X-TEST&quot;, &quot;value&quot;))</span>
     <span class="doccomment">///     .finish();</span>
     <span class="doccomment">/// ```</span>
@@ -1558,10 +1558,10 @@
     <span class="doccomment">///</span>
     <span class="doccomment">/// ```</span>
     <span class="doccomment">/// # use actix_http::Response;</span>
-    <span class="doccomment">/// use actix_http::http::header::ContentType;</span>
+    <span class="doccomment">/// use actix_http::http::header;</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Response::Ok()</span>
-    <span class="doccomment">///     .append_header(ContentType(mime::APPLICATION_JSON))</span>
+    <span class="doccomment">///     .append_header((header::CONTENT_TYPE, mime::APPLICATION_JSON))</span>
     <span class="doccomment">///     .append_header((&quot;X-TEST&quot;, &quot;value1&quot;))</span>
     <span class="doccomment">///     .append_header((&quot;X-TEST&quot;, &quot;value2&quot;))</span>
     <span class="doccomment">///     .finish();</span>
@@ -1854,7 +1854,7 @@
                 };
 
                 <span class="kw">if</span> <span class="op">!</span><span class="ident">contains</span> {
-                    <span class="self">self</span>.<span class="ident">insert_header</span>(<span class="ident">header</span>::<span class="ident">ContentType</span>(<span class="ident">mime</span>::<span class="ident">APPLICATION_JSON</span>));
+                    <span class="self">self</span>.<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_JSON</span>));
                 }
 
                 <span class="self">self</span>.<span class="ident">body</span>(<span class="ident">Body</span>::<span class="ident">from</span>(<span class="ident">body</span>))
@@ -1979,16 +1979,16 @@
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
         <span class="kw">let</span> <span class="ident">head</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">head</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
 
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">writeln!</span>(
             <span class="ident">f</span>,
             <span class="string">&quot;\nResponseBuilder {:?} {}{}&quot;</span>,
             <span class="ident">head</span>.<span class="ident">version</span>,
             <span class="ident">head</span>.<span class="ident">status</span>,
             <span class="ident">head</span>.<span class="ident">reason</span>.<span class="ident">unwrap_or</span>(<span class="string">&quot;&quot;</span>),
         );
-        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>);
+        <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;  headers:&quot;</span>);
         <span class="kw">for</span> (<span class="ident">key</span>, <span class="ident">val</span>) <span class="kw">in</span> <span class="ident">head</span>.<span class="ident">headers</span>.<span class="ident">iter</span>() {
-            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>);
+            <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="macro">writeln!</span>(<span class="ident">f</span>, <span class="string">&quot;    {:?}: {:?}&quot;</span>, <span class="ident">key</span>, <span class="ident">val</span>);
         }
         <span class="ident">res</span>
     }
@@ -2074,8 +2074,8 @@
             .<span class="ident">append_header</span>((<span class="ident">COOKIE</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;cookie1=value1; &quot;</span>)))
             .<span class="ident">append_header</span>((<span class="ident">COOKIE</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;cookie2=value2; &quot;</span>)))
             .<span class="ident">finish</span>();
-        <span class="kw">let</span> <span class="ident">dbg</span> <span class="op">=</span> <span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">resp</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">dbg</span>.<span class="ident">contains</span>(<span class="string">&quot;Response&quot;</span>));
+        <span class="kw">let</span> <span class="ident">dbg</span> <span class="op">=</span> <span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">resp</span>);
+        <span class="macro">assert!</span>(<span class="ident">dbg</span>.<span class="ident">contains</span>(<span class="string">&quot;Response&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cookies&quot;</span>)]</span>
@@ -2107,10 +2107,10 @@
         <span class="ident">val</span>.<span class="ident">sort</span>();
 
         <span class="comment">// the .del_cookie call</span>
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">val</span>[<span class="number">0</span>].<span class="ident">starts_with</span>(<span class="string">&quot;cookie1=; Max-Age=0;&quot;</span>));
+        <span class="macro">assert!</span>(<span class="ident">val</span>[<span class="number">0</span>].<span class="ident">starts_with</span>(<span class="string">&quot;cookie1=; Max-Age=0;&quot;</span>));
 
         <span class="comment">// the .cookie call</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">val</span>[<span class="number">1</span>],
             <span class="string">&quot;name=value; HttpOnly; Path=/test; Domain=www.rust-lang.org; Max-Age=86400&quot;</span>
         );
@@ -2130,20 +2130,20 @@
         <span class="ident">r</span>.<span class="ident">add_cookie</span>(<span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">http</span>::<span class="ident">Cookie</span>::<span class="ident">new</span>(<span class="string">&quot;cookie3&quot;</span>, <span class="string">&quot;val300&quot;</span>))
             .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">cookies</span>().<span class="ident">count</span>(), <span class="number">4</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>.<span class="ident">cookies</span>().<span class="ident">count</span>(), <span class="number">4</span>);
         <span class="ident">r</span>.<span class="ident">del_cookie</span>(<span class="string">&quot;cookie2&quot;</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">iter</span> <span class="op">=</span> <span class="ident">r</span>.<span class="ident">cookies</span>();
         <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">v</span>.<span class="ident">name</span>(), <span class="ident">v</span>.<span class="ident">value</span>()), (<span class="string">&quot;original&quot;</span>, <span class="string">&quot;val100&quot;</span>));
+        <span class="macro">assert_eq!</span>((<span class="ident">v</span>.<span class="ident">name</span>(), <span class="ident">v</span>.<span class="ident">value</span>()), (<span class="string">&quot;original&quot;</span>, <span class="string">&quot;val100&quot;</span>));
         <span class="kw">let</span> <span class="ident">v</span> <span class="op">=</span> <span class="ident">iter</span>.<span class="ident">next</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">v</span>.<span class="ident">name</span>(), <span class="ident">v</span>.<span class="ident">value</span>()), (<span class="string">&quot;cookie3&quot;</span>, <span class="string">&quot;val300&quot;</span>));
+        <span class="macro">assert_eq!</span>((<span class="ident">v</span>.<span class="ident">name</span>(), <span class="ident">v</span>.<span class="ident">value</span>()), (<span class="string">&quot;cookie3&quot;</span>, <span class="string">&quot;val300&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_basic_builder</span>() {
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="prelude-val">Ok</span>().<span class="ident">insert_header</span>((<span class="string">&quot;X-TEST&quot;</span>, <span class="string">&quot;value&quot;</span>)).<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2151,8 +2151,8 @@
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="ident">build</span>(<span class="ident">StatusCode</span>::<span class="ident">OK</span>)
             .<span class="ident">upgrade</span>(<span class="string">&quot;websocket&quot;</span>)
             .<span class="ident">finish</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">upgrade</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert!</span>(<span class="ident">resp</span>.<span class="ident">upgrade</span>());
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">UPGRADE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;websocket&quot;</span>)
         );
@@ -2161,7 +2161,7 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_force_close</span>() {
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="ident">build</span>(<span class="ident">StatusCode</span>::<span class="ident">OK</span>).<span class="ident">force_close</span>().<span class="ident">finish</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">resp</span>.<span class="ident">keep_alive</span>())
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">resp</span>.<span class="ident">keep_alive</span>())
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2169,125 +2169,125 @@
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="ident">build</span>(<span class="ident">StatusCode</span>::<span class="ident">OK</span>)
             .<span class="ident">content_type</span>(<span class="string">&quot;text/plain&quot;</span>)
             .<span class="ident">body</span>(<span class="ident">Body</span>::<span class="ident">Empty</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;text/plain&quot;</span>)
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;text/plain&quot;</span>)
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_json</span>() {
-        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="prelude-val">Ok</span>().<span class="ident">json</span>(<span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>, <span class="string">&quot;v3&quot;</span>]);
+        <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="prelude-val">Ok</span>().<span class="ident">json</span>(<span class="macro">vec!</span>[<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>, <span class="string">&quot;v3&quot;</span>]);
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;[\&quot;v1\&quot;,\&quot;v2\&quot;,\&quot;v3\&quot;]&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;[\&quot;v1\&quot;,\&quot;v2\&quot;,\&quot;v3\&quot;]&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="prelude-val">Ok</span>().<span class="ident">json</span>(<span class="kw-2">&amp;</span>[<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>, <span class="string">&quot;v3&quot;</span>]);
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;[\&quot;v1\&quot;,\&quot;v2\&quot;,\&quot;v3\&quot;]&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;[\&quot;v1\&quot;,\&quot;v2\&quot;,\&quot;v3\&quot;]&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_json_ct</span>() {
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="ident">build</span>(<span class="ident">StatusCode</span>::<span class="ident">OK</span>)
             .<span class="ident">insert_header</span>((<span class="ident">CONTENT_TYPE</span>, <span class="string">&quot;text/json&quot;</span>))
-            .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="macro">vec</span><span class="macro">!</span>[<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>, <span class="string">&quot;v3&quot;</span>]);
+            .<span class="ident">json</span>(<span class="kw-2">&amp;</span><span class="macro">vec!</span>[<span class="string">&quot;v1&quot;</span>, <span class="string">&quot;v2&quot;</span>, <span class="string">&quot;v3&quot;</span>]);
         <span class="kw">let</span> <span class="ident">ct</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">ct</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/json&quot;</span>));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;[\&quot;v1\&quot;,\&quot;v2\&quot;,\&quot;v3\&quot;]&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">ct</span>, <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/json&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;[\&quot;v1\&quot;,\&quot;v2\&quot;,\&quot;v3\&quot;]&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_serde_json_in_body</span>() {
         <span class="kw">use</span> <span class="ident">serde_json</span>::<span class="ident">json</span>;
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span>
-            <span class="ident">Response</span>::<span class="ident">build</span>(<span class="ident">StatusCode</span>::<span class="ident">OK</span>).<span class="ident">body</span>(<span class="macro">json</span><span class="macro">!</span>({<span class="string">&quot;test-key&quot;</span>:<span class="string">&quot;test-value&quot;</span>}));
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">br#&quot;{&quot;test-key&quot;:&quot;test-value&quot;}&quot;#</span>);
+            <span class="ident">Response</span>::<span class="ident">build</span>(<span class="ident">StatusCode</span>::<span class="ident">OK</span>).<span class="ident">body</span>(<span class="macro">json!</span>({<span class="string">&quot;test-key&quot;</span>:<span class="string">&quot;test-value&quot;</span>}));
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">br#&quot;{&quot;test-key&quot;:&quot;test-value&quot;}&quot;#</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_into_response</span>() {
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="string">&quot;test&quot;</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="string">b&quot;test&quot;</span>.<span class="ident">as_ref</span>().<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>().<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="string">&quot;test&quot;</span>.<span class="ident">to_owned</span>()).<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;text/plain; charset=utf-8&quot;</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;test&quot;</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;test&quot;</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;test&quot;</span>);
         <span class="kw">let</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="ident">b</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)
         );
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">body</span>().<span class="ident">get_ref</span>(), <span class="string">b&quot;test&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;cookies&quot;</span>)]</span>
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_into_builder</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">resp</span>: <span class="ident">Response</span> <span class="op">=</span> <span class="string">&quot;test&quot;</span>.<span class="ident">into</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="ident">resp</span>.<span class="ident">add_cookie</span>(<span class="kw-2">&amp;</span><span class="kw">crate</span>::<span class="ident">http</span>::<span class="ident">Cookie</span>::<span class="ident">new</span>(<span class="string">&quot;cookie1&quot;</span>, <span class="string">&quot;val100&quot;</span>))
             .<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">builder</span>: <span class="ident">ResponseBuilder</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">into</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">builder</span>.<span class="ident">status</span>(<span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>).<span class="ident">finish</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">BAD_REQUEST</span>);
 
         <span class="kw">let</span> <span class="ident">cookie</span> <span class="op">=</span> <span class="ident">resp</span>.<span class="ident">cookies</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>((<span class="ident">cookie</span>.<span class="ident">name</span>(), <span class="ident">cookie</span>.<span class="ident">value</span>()), (<span class="string">&quot;cookie1&quot;</span>, <span class="string">&quot;val100&quot;</span>));
+        <span class="macro">assert_eq!</span>((<span class="ident">cookie</span>.<span class="ident">name</span>(), <span class="ident">cookie</span>.<span class="ident">value</span>()), (<span class="string">&quot;cookie1&quot;</span>, <span class="string">&quot;val100&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2296,7 +2296,7 @@
         <span class="ident">res</span>.<span class="ident">insert_header</span>((<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/octet-stream&quot;</span>));
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">finish</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="string">&quot;Content-Type&quot;</span>),
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>))
         );
@@ -2305,10 +2305,10 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">response_builder_header_insert_typed</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="prelude-val">Ok</span>();
-        <span class="ident">res</span>.<span class="ident">insert_header</span>(<span class="ident">header</span>::<span class="ident">ContentType</span>(<span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>));
+        <span class="ident">res</span>.<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>));
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">finish</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="string">&quot;Content-Type&quot;</span>),
             <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>))
         );
@@ -2322,22 +2322,22 @@
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">finish</span>();
 
         <span class="kw">let</span> <span class="ident">headers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">get_all</span>(<span class="string">&quot;Content-Type&quot;</span>).<span class="ident">cloned</span>().<span class="ident">collect</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">2</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">2</span>);
+        <span class="macro">assert!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)));
+        <span class="macro">assert!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>)));
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">response_builder_header_append_typed</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">Response</span>::<span class="prelude-val">Ok</span>();
-        <span class="ident">res</span>.<span class="ident">append_header</span>(<span class="ident">header</span>::<span class="ident">ContentType</span>(<span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>));
-        <span class="ident">res</span>.<span class="ident">append_header</span>(<span class="ident">header</span>::<span class="ident">ContentType</span>(<span class="ident">mime</span>::<span class="ident">APPLICATION_JSON</span>));
+        <span class="ident">res</span>.<span class="ident">append_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>));
+        <span class="ident">res</span>.<span class="ident">append_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_JSON</span>));
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">finish</span>();
 
         <span class="kw">let</span> <span class="ident">headers</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">get_all</span>(<span class="string">&quot;Content-Type&quot;</span>).<span class="ident">cloned</span>().<span class="ident">collect</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">2</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)));
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">headers</span>.<span class="ident">len</span>(), <span class="number">2</span>);
+        <span class="macro">assert!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/octet-stream&quot;</span>)));
+        <span class="macro">assert!</span>(<span class="ident">headers</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">HeaderValue</span>::<span class="ident">from_static</span>(<span class="string">&quot;application/json&quot;</span>)));
     }
 }
 </pre></div>

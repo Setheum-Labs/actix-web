@@ -355,31 +355,31 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_parse</span>() {
-        <span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> <span class="macro">vec</span><span class="macro">!</span>[
-            <span class="ident">T</span>(<span class="string">&quot;&quot;</span>, <span class="number">0</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;&quot;</span>, <span class="number">1000</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;foo&quot;</span>, <span class="number">0</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=&quot;</span>, <span class="number">0</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=7&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes= 7 &quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=1-&quot;</span>, <span class="number">0</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=5-4&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=0-2,5-4&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=2-5,4-3&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=--5,4--3&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=A-&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=A- &quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=A-Z&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes= -Z&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=5-Z&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=Ran-dom, garbage&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=0x01-0x02&quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes=         &quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
-            <span class="ident">T</span>(<span class="string">&quot;bytes= , , ,   &quot;</span>, <span class="number">10</span>, <span class="macro">vec</span><span class="macro">!</span>[]),
+        <span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> <span class="macro">vec!</span>[
+            <span class="ident">T</span>(<span class="string">&quot;&quot;</span>, <span class="number">0</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;&quot;</span>, <span class="number">1000</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;foo&quot;</span>, <span class="number">0</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=&quot;</span>, <span class="number">0</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=7&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes= 7 &quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=1-&quot;</span>, <span class="number">0</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=5-4&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=0-2,5-4&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=2-5,4-3&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=--5,4--3&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=A-&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=A- &quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=A-Z&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes= -Z&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=5-Z&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=Ran-dom, garbage&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=0x01-0x02&quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes=         &quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
+            <span class="ident">T</span>(<span class="string">&quot;bytes= , , ,   &quot;</span>, <span class="number">10</span>, <span class="macro">vec!</span>[]),
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=0-9&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">0</span>,
                     <span class="ident">length</span>: <span class="number">10</span>,
                 }],
@@ -387,7 +387,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=0-&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">0</span>,
                     <span class="ident">length</span>: <span class="number">10</span>,
                 }],
@@ -395,7 +395,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=5-&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">5</span>,
                     <span class="ident">length</span>: <span class="number">5</span>,
                 }],
@@ -403,7 +403,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=0-20&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">0</span>,
                     <span class="ident">length</span>: <span class="number">10</span>,
                 }],
@@ -411,7 +411,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=15-,0-5&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">0</span>,
                     <span class="ident">length</span>: <span class="number">6</span>,
                 }],
@@ -419,7 +419,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=1-2,5-&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">1</span>,
                         <span class="ident">length</span>: <span class="number">2</span>,
@@ -433,7 +433,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=-2 , 7-&quot;</span>,
                 <span class="number">11</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">9</span>,
                         <span class="ident">length</span>: <span class="number">2</span>,
@@ -447,7 +447,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=0-0 ,2-2, 7-&quot;</span>,
                 <span class="number">11</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">0</span>,
                         <span class="ident">length</span>: <span class="number">1</span>,
@@ -465,7 +465,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=-5&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">5</span>,
                     <span class="ident">length</span>: <span class="number">5</span>,
                 }],
@@ -473,7 +473,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=-15&quot;</span>,
                 <span class="number">10</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">0</span>,
                     <span class="ident">length</span>: <span class="number">10</span>,
                 }],
@@ -481,7 +481,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=0-499&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">0</span>,
                     <span class="ident">length</span>: <span class="number">500</span>,
                 }],
@@ -489,7 +489,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=500-999&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">500</span>,
                     <span class="ident">length</span>: <span class="number">500</span>,
                 }],
@@ -497,7 +497,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=-500&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">9500</span>,
                     <span class="ident">length</span>: <span class="number">500</span>,
                 }],
@@ -505,7 +505,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=9500-&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">HttpRange</span> {
+                <span class="macro">vec!</span>[<span class="ident">HttpRange</span> {
                     <span class="ident">start</span>: <span class="number">9500</span>,
                     <span class="ident">length</span>: <span class="number">500</span>,
                 }],
@@ -513,7 +513,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=0-0,-1&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">0</span>,
                         <span class="ident">length</span>: <span class="number">1</span>,
@@ -527,7 +527,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=500-600,601-999&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">500</span>,
                         <span class="ident">length</span>: <span class="number">101</span>,
@@ -541,7 +541,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=500-700,601-999&quot;</span>,
                 <span class="number">10000</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">500</span>,
                         <span class="ident">length</span>: <span class="number">201</span>,
@@ -556,7 +556,7 @@
             <span class="ident">T</span>(
                 <span class="string">&quot;bytes=   1 -2   ,  4- 5, 7 - 8 , ,,&quot;</span>,
                 <span class="number">11</span>,
-                <span class="macro">vec</span><span class="macro">!</span>[
+                <span class="macro">vec!</span>[
                     <span class="ident">HttpRange</span> {
                         <span class="ident">start</span>: <span class="number">1</span>,
                         <span class="ident">length</span>: <span class="number">2</span>,
@@ -584,7 +584,7 @@
                 <span class="kw">if</span> <span class="ident">expected</span>.<span class="ident">is_empty</span>() {
                     <span class="kw">continue</span>;
                 } <span class="kw">else</span> {
-                    <span class="macro">panic</span><span class="macro">!</span>(
+                    <span class="macro">panic!</span>(
                         <span class="string">&quot;parse({}, {}) returned error {:?}&quot;</span>,
                         <span class="ident">header</span>,
                         <span class="ident">size</span>,
@@ -596,7 +596,7 @@
             <span class="kw">let</span> <span class="ident">got</span> <span class="op">=</span> <span class="ident">res</span>.<span class="ident">unwrap</span>();
 
             <span class="kw">if</span> <span class="ident">got</span>.<span class="ident">len</span>() <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span>.<span class="ident">len</span>() {
-                <span class="macro">panic</span><span class="macro">!</span>(
+                <span class="macro">panic!</span>(
                     <span class="string">&quot;len(parseRange({}, {})) = {}, want {}&quot;</span>,
                     <span class="ident">header</span>,
                     <span class="ident">size</span>,
@@ -607,13 +607,13 @@
 
             <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">expected</span>.<span class="ident">len</span>() {
                 <span class="kw">if</span> <span class="ident">got</span>[<span class="ident">i</span>].<span class="ident">start</span> <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span>[<span class="ident">i</span>].<span class="ident">start</span> {
-                    <span class="macro">panic</span><span class="macro">!</span>(
+                    <span class="macro">panic!</span>(
                         <span class="string">&quot;parseRange({}, {})[{}].start = {}, want {}&quot;</span>,
                         <span class="ident">header</span>, <span class="ident">size</span>, <span class="ident">i</span>, <span class="ident">got</span>[<span class="ident">i</span>].<span class="ident">start</span>, <span class="ident">expected</span>[<span class="ident">i</span>].<span class="ident">start</span>
                     )
                 }
                 <span class="kw">if</span> <span class="ident">got</span>[<span class="ident">i</span>].<span class="ident">length</span> <span class="op">!</span><span class="op">=</span> <span class="ident">expected</span>[<span class="ident">i</span>].<span class="ident">length</span> {
-                    <span class="macro">panic</span><span class="macro">!</span>(
+                    <span class="macro">panic!</span>(
                         <span class="string">&quot;parseRange({}, {})[{}].length = {}, want {}&quot;</span>,
                         <span class="ident">header</span>, <span class="ident">size</span>, <span class="ident">i</span>, <span class="ident">got</span>[<span class="ident">i</span>].<span class="ident">length</span>, <span class="ident">expected</span>[<span class="ident">i</span>].<span class="ident">length</span>
                     )

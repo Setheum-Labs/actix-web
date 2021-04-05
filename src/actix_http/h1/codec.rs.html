@@ -257,7 +257,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">request</span>::<span class="ident">Request</span>;
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">response</span>::<span class="ident">Response</span>;
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
+<span class="macro">bitflags!</span> {
     <span class="kw">struct</span> <span class="ident">Flags</span>: <span class="ident">u8</span> {
         <span class="kw">const</span> <span class="ident">HEAD</span>              <span class="op">=</span> <span class="number">0b0000_0001</span>;
         <span class="kw">const</span> <span class="ident">KEEPALIVE_ENABLED</span> <span class="op">=</span> <span class="number">0b0000_0010</span>;
@@ -286,7 +286,7 @@
 
 <span class="kw">impl</span> <span class="ident">fmt</span>::<span class="ident">Debug</span> <span class="kw">for</span> <span class="ident">Codec</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt</span>::<span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">fmt</span>::<span class="prelude-ty">Result</span> {
-        <span class="macro">write</span><span class="macro">!</span>(<span class="ident">f</span>, <span class="string">&quot;h1::Codec({:?})&quot;</span>, <span class="self">self</span>.<span class="ident">flags</span>)
+        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;h1::Codec({:?})&quot;</span>, <span class="self">self</span>.<span class="ident">flags</span>)
     }
 }
 
@@ -454,8 +454,8 @@
         <span class="kw">let</span> <span class="ident">item</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">item</span>.<span class="ident">message</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(
             <span class="string">b&quot;4\r\ndata\r\n4\r\nline\r\n0\r\n\r\n\
@@ -465,19 +465,19 @@
         );
 
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;data&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;data&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;line&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;line&quot;</span>);
 
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">eof</span>());
+        <span class="macro">assert!</span>(<span class="ident">msg</span>.<span class="ident">eof</span>());
 
         <span class="comment">// decode next message</span>
         <span class="kw">let</span> <span class="ident">item</span> <span class="op">=</span> <span class="ident">codec</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">item</span>.<span class="ident">message</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">POST</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">POST</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
     }
 }
 </pre></div>

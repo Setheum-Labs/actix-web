@@ -1335,6 +1335,7 @@
 <span id="1334">1334</span>
 <span id="1335">1335</span>
 <span id="1336">1336</span>
+<span id="1337">1337</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">std</span>::{
     <span class="ident">collections</span>::<span class="ident">VecDeque</span>,
@@ -1372,7 +1373,7 @@
 <span class="kw">const</span> <span class="ident">HW_BUFFER_SIZE</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">1024</span> <span class="op">*</span> <span class="number">8</span>;
 <span class="kw">const</span> <span class="ident">MAX_PIPELINED_MESSAGES</span>: <span class="ident">usize</span> <span class="op">=</span> <span class="number">16</span>;
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
+<span class="macro">bitflags!</span> {
     <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Flags</span>: <span class="ident">u8</span> {
         <span class="kw">const</span> <span class="ident">STARTED</span>            <span class="op">=</span> <span class="number">0b0000_0001</span>;
         <span class="kw">const</span> <span class="ident">KEEPALIVE</span>          <span class="op">=</span> <span class="number">0b0000_0010</span>;
@@ -1474,7 +1475,7 @@
     <span class="ident">B</span>: <span class="ident">MessageBody</span>,
 {
     <span class="kw">fn</span> <span class="ident">is_empty</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-        <span class="macro">matches</span><span class="macro">!</span>(<span class="self">self</span>, <span class="ident">State</span>::<span class="prelude-val">None</span>)
+        <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident">State</span>::<span class="prelude-val">None</span>)
     }
 }
 
@@ -1821,7 +1822,7 @@
                         }
                     };
                 }
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(
                     <span class="string">&quot;State must be set to ServiceCall or ExceptCall in handle_request&quot;</span>
                 ),
             }
@@ -1896,7 +1897,7 @@
                             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">payload</span>) <span class="op">=</span> <span class="ident">this</span>.<span class="ident">payload</span> {
                                 <span class="ident">payload</span>.<span class="ident">feed_data</span>(<span class="ident">chunk</span>);
                             } <span class="kw">else</span> {
-                                <span class="macro">error</span><span class="macro">!</span>(
+                                <span class="macro">error!</span>(
                                     <span class="string">&quot;Internal server error: unexpected payload chunk&quot;</span>
                                 );
                                 <span class="ident">this</span>.<span class="ident">flags</span>.<span class="ident">insert</span>(<span class="ident">Flags</span>::<span class="ident">READ_DISCONNECT</span>);
@@ -1911,7 +1912,7 @@
                             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">mut</span> <span class="ident">payload</span>) <span class="op">=</span> <span class="ident">this</span>.<span class="ident">payload</span>.<span class="ident">take</span>() {
                                 <span class="ident">payload</span>.<span class="ident">feed_eof</span>();
                             } <span class="kw">else</span> {
-                                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Internal server error: unexpected eof&quot;</span>);
+                                <span class="macro">error!</span>(<span class="string">&quot;Internal server error: unexpected eof&quot;</span>);
                                 <span class="ident">this</span>.<span class="ident">flags</span>.<span class="ident">insert</span>(<span class="ident">Flags</span>::<span class="ident">READ_DISCONNECT</span>);
                                 <span class="ident">this</span>.<span class="ident">messages</span>.<span class="ident">push_back</span>(<span class="ident">DispatcherMessage</span>::<span class="ident">Error</span>(
                                     <span class="ident">Response</span>::<span class="ident">InternalServerError</span>().<span class="ident">finish</span>().<span class="ident">drop_body</span>(),
@@ -2005,7 +2006,7 @@
                         <span class="comment">// have no task at hand.</span>
                         <span class="kw">if</span> <span class="ident">this</span>.<span class="ident">state</span>.<span class="ident">is_empty</span>() <span class="op">&amp;&amp;</span> <span class="ident">this</span>.<span class="ident">write_buf</span>.<span class="ident">is_empty</span>() {
                             <span class="kw">if</span> <span class="ident">this</span>.<span class="ident">flags</span>.<span class="ident">contains</span>(<span class="ident">Flags</span>::<span class="ident">STARTED</span>) {
-                                <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Keep-alive timeout, close connection&quot;</span>);
+                                <span class="macro">trace!</span>(<span class="string">&quot;Keep-alive timeout, close connection&quot;</span>);
                                 <span class="ident">this</span>.<span class="ident">flags</span>.<span class="ident">insert</span>(<span class="ident">Flags</span>::<span class="ident">SHUTDOWN</span>);
 
                                 <span class="comment">// start shutdown timeout</span>
@@ -2021,14 +2022,14 @@
                             } <span class="kw">else</span> {
                                 <span class="comment">// timeout on first request (slow request) return 408</span>
                                 <span class="kw">if</span> <span class="op">!</span><span class="ident">this</span>.<span class="ident">flags</span>.<span class="ident">contains</span>(<span class="ident">Flags</span>::<span class="ident">STARTED</span>) {
-                                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Slow request timeout&quot;</span>);
+                                    <span class="macro">trace!</span>(<span class="string">&quot;Slow request timeout&quot;</span>);
                                     <span class="kw">let</span> <span class="kw">_</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">as_mut</span>().<span class="ident">send_response</span>(
                                         <span class="ident">Response</span>::<span class="ident">RequestTimeout</span>().<span class="ident">finish</span>().<span class="ident">drop_body</span>(),
                                         <span class="ident">ResponseBody</span>::<span class="ident">Other</span>(<span class="ident">Body</span>::<span class="ident">Empty</span>),
                                     );
                                     <span class="ident">this</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
                                 } <span class="kw">else</span> {
-                                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Keep-alive connection timeout&quot;</span>);
+                                    <span class="macro">trace!</span>(<span class="string">&quot;Keep-alive connection timeout&quot;</span>);
                                 }
                                 <span class="ident">this</span>.<span class="ident">flags</span>.<span class="ident">insert</span>(<span class="ident">Flags</span>::<span class="ident">STARTED</span> <span class="op">|</span> <span class="ident">Flags</span>::<span class="ident">SHUTDOWN</span>);
                                 <span class="ident">this</span>.<span class="ident">state</span>.<span class="ident">set</span>(<span class="ident">State</span>::<span class="prelude-val">None</span>);
@@ -2192,7 +2193,7 @@
                         <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(()))
                     } <span class="kw">else</span> {
                         <span class="comment">// flush buffer and wait on blocked.</span>
-                        <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">inner</span>.<span class="ident">as_mut</span>().<span class="ident">poll_flush</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>;
+                        <span class="macro">ready!</span>(<span class="ident">inner</span>.<span class="ident">as_mut</span>().<span class="ident">poll_flush</span>(<span class="ident">cx</span>))<span class="question-mark">?</span>;
                         <span class="ident">Pin</span>::<span class="ident">new</span>(<span class="ident">inner</span>.<span class="ident">project</span>().<span class="ident">io</span>.<span class="ident">as_mut</span>().<span class="ident">unwrap</span>())
                             .<span class="ident">poll_shutdown</span>(<span class="ident">cx</span>)
                             .<span class="ident">map_err</span>(<span class="ident">DispatchError</span>::<span class="ident">from</span>)
@@ -2277,7 +2278,7 @@
                 }
             }
             <span class="ident">DispatcherStateProj</span>::<span class="ident">Upgrade</span>(<span class="ident">fut</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;Upgrade handler error: {}&quot;</span>, <span class="ident">e</span>);
+                <span class="macro">error!</span>(<span class="string">&quot;Upgrade handler error: {}&quot;</span>, <span class="ident">e</span>);
                 <span class="ident">DispatchError</span>::<span class="ident">Upgrade</span>
             }),
         }
@@ -2289,7 +2290,8 @@
     <span class="kw">use</span> <span class="ident">std</span>::<span class="ident">str</span>;
 
     <span class="kw">use</span> <span class="ident">actix_service</span>::<span class="ident">fn_service</span>;
-    <span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::{<span class="ident">lazy</span>, <span class="ident">ready</span>, <span class="ident">Ready</span>};
+    <span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
+    <span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::<span class="ident">lazy</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
     <span class="kw">use</span> <span class="kw">crate</span>::{
@@ -2359,16 +2361,16 @@
                 <span class="prelude-val">None</span>,
             );
 
-            <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">h1</span>);
+            <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">h1</span>);
 
             <span class="kw">match</span> <span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>) {
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_err</span>()),
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(),
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert!</span>(<span class="ident">res</span>.<span class="ident">is_err</span>()),
             }
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">DispatcherStateProj</span>::<span class="ident">Normal</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="ident">h1</span>.<span class="ident">project</span>().<span class="ident">inner</span>.<span class="ident">project</span>() {
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">inner</span>.<span class="ident">flags</span>.<span class="ident">contains</span>(<span class="ident">Flags</span>::<span class="ident">READ_DISCONNECT</span>));
-                <span class="macro">assert_eq</span><span class="macro">!</span>(
+                <span class="macro">assert!</span>(<span class="ident">inner</span>.<span class="ident">flags</span>.<span class="ident">contains</span>(<span class="ident">Flags</span>::<span class="ident">READ_DISCONNECT</span>));
+                <span class="macro">assert_eq!</span>(
                     <span class="kw-2">&amp;</span><span class="ident">inner</span>.<span class="ident">project</span>().<span class="ident">io</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>().<span class="ident">write_buf</span>[..<span class="number">26</span>],
                     <span class="string">b&quot;HTTP/1.1 400 Bad Request\r\n&quot;</span>
                 );
@@ -2399,17 +2401,17 @@
                 <span class="prelude-val">None</span>,
             );
 
-            <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">h1</span>);
+            <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">h1</span>);
 
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">matches</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
+            <span class="macro">assert!</span>(<span class="macro">matches!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
 
             <span class="kw">match</span> <span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>) {
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;first poll should not be pending&quot;</span>),
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_ok</span>()),
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;first poll should not be pending&quot;</span>),
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert!</span>(<span class="ident">res</span>.<span class="ident">is_ok</span>()),
             }
 
             <span class="comment">// polls: initial =&gt; shutdown</span>
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">2</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">2</span>);
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">DispatcherStateProj</span>::<span class="ident">Normal</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="ident">h1</span>.<span class="ident">project</span>().<span class="ident">inner</span>.<span class="ident">project</span>() {
                 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inner</span>.<span class="ident">project</span>().<span class="ident">io</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>().<span class="ident">write_buf</span>[..];
@@ -2428,7 +2430,7 @@
                 /def\
                 &quot;</span>;
 
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">to_vec</span>(), <span class="ident">exp</span>.<span class="ident">to_vec</span>());
+                <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">to_vec</span>(), <span class="ident">exp</span>.<span class="ident">to_vec</span>());
             }
         })
         .<span class="kw">await</span>;
@@ -2453,17 +2455,17 @@
                 <span class="prelude-val">None</span>,
             );
 
-            <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">h1</span>);
+            <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">h1</span>);
 
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">matches</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
+            <span class="macro">assert!</span>(<span class="macro">matches!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
 
             <span class="kw">match</span> <span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>) {
-                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;first poll should not be pending&quot;</span>),
-                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">is_err</span>()),
+                <span class="ident">Poll</span>::<span class="ident">Pending</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;first poll should not be pending&quot;</span>),
+                <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="ident">res</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">assert!</span>(<span class="ident">res</span>.<span class="ident">is_err</span>()),
             }
 
             <span class="comment">// polls: initial =&gt; shutdown</span>
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">1</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">1</span>);
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">DispatcherStateProj</span>::<span class="ident">Normal</span>(<span class="ident">inner</span>) <span class="op">=</span> <span class="ident">h1</span>.<span class="ident">project</span>().<span class="ident">inner</span>.<span class="ident">project</span>() {
                 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">inner</span>.<span class="ident">project</span>().<span class="ident">io</span>.<span class="ident">take</span>().<span class="ident">unwrap</span>().<span class="ident">write_buf</span>[..];
@@ -2481,7 +2483,7 @@
                 date: Thu, 01 Jan 1970 12:34:56 UTC\r\n\r\n\
                 &quot;</span>;
 
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">to_vec</span>(), <span class="ident">exp</span>.<span class="ident">to_vec</span>());
+                <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">to_vec</span>(), <span class="ident">exp</span>.<span class="ident">to_vec</span>());
             }
         })
         .<span class="kw">await</span>;
@@ -2512,36 +2514,36 @@
                 &quot;</span>,
             );
 
-            <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">h1</span>);
+            <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">h1</span>);
 
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_pending</span>());
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">matches</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
+            <span class="macro">assert!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_pending</span>());
+            <span class="macro">assert!</span>(<span class="macro">matches!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
 
             <span class="comment">// polls: manual</span>
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">1</span>);
-            <span class="macro">eprintln</span><span class="macro">!</span>(<span class="string">&quot;poll count: {}&quot;</span>, <span class="ident">h1</span>.<span class="ident">poll_count</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">1</span>);
+            <span class="macro">eprintln!</span>(<span class="string">&quot;poll count: {}&quot;</span>, <span class="ident">h1</span>.<span class="ident">poll_count</span>);
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span> <span class="ident">h1</span>.<span class="ident">inner</span> {
                 <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">inner</span>.<span class="ident">io</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
                 <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">io</span>.<span class="ident">write_buf</span>()[..];
-                <span class="macro">assert_eq</span><span class="macro">!</span>(
+                <span class="macro">assert_eq!</span>(
                     <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="ident">res</span>).<span class="ident">unwrap</span>(),
                     <span class="string">&quot;HTTP/1.1 100 Continue\r\n\r\n&quot;</span>
                 );
             }
 
             <span class="ident">buf</span>.<span class="ident">extend_read_buf</span>(<span class="string">&quot;12345&quot;</span>);
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>());
+            <span class="macro">assert!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>());
 
             <span class="comment">// polls: manual manual shutdown</span>
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">3</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">3</span>);
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span> <span class="ident">h1</span>.<span class="ident">inner</span> {
                 <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">inner</span>.<span class="ident">io</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
                 <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">res</span> <span class="op">=</span> (<span class="kw-2">&amp;</span><span class="ident">io</span>.<span class="ident">write_buf</span>()[..]).<span class="ident">to_owned</span>();
                 <span class="ident">stabilize_date_header</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">res</span>);
 
-                <span class="macro">assert_eq</span><span class="macro">!</span>(
+                <span class="macro">assert_eq!</span>(
                     <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">res</span>).<span class="ident">unwrap</span>(),
                     <span class="string">&quot;\
                     HTTP/1.1 100 Continue\r\n\
@@ -2584,13 +2586,13 @@
                 &quot;</span>,
             );
 
-            <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">h1</span>);
+            <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">h1</span>);
 
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>());
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">matches</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
+            <span class="macro">assert!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>());
+            <span class="macro">assert!</span>(<span class="macro">matches!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw">_</span>)));
 
             <span class="comment">// polls: manual shutdown</span>
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">2</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">2</span>);
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="ident">DispatcherState</span>::<span class="ident">Normal</span>(<span class="kw-2">ref</span> <span class="ident">inner</span>) <span class="op">=</span> <span class="ident">h1</span>.<span class="ident">inner</span> {
                 <span class="kw">let</span> <span class="ident">io</span> <span class="op">=</span> <span class="ident">inner</span>.<span class="ident">io</span>.<span class="ident">as_ref</span>().<span class="ident">unwrap</span>();
@@ -2601,7 +2603,7 @@
                 <span class="comment">// been sent, this test expects a complete service response since the payload</span>
                 <span class="comment">// is not used at all. The service passed to dispatcher is path echo and doesn&#39;t</span>
                 <span class="comment">// consume payload bytes.</span>
-                <span class="macro">assert_eq</span><span class="macro">!</span>(
+                <span class="macro">assert_eq!</span>(
                     <span class="ident">str</span>::<span class="ident">from_utf8</span>(<span class="kw-2">&amp;</span><span class="ident">res</span>).<span class="ident">unwrap</span>(),
                     <span class="string">&quot;\
                     HTTP/1.1 100 Continue\r\n\
@@ -2628,12 +2630,12 @@
             <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">Error</span>;
             <span class="kw">type</span> <span class="ident">Future</span> <span class="op">=</span> <span class="ident">Ready</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Response</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span>;
 
-            <span class="ident">actix_service</span>::<span class="macro">always_ready</span><span class="macro">!</span>();
+            <span class="ident">actix_service</span>::<span class="macro">always_ready!</span>();
 
             <span class="kw">fn</span> <span class="ident">call</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, (<span class="ident">req</span>, <span class="ident">_framed</span>): (<span class="ident">Request</span>, <span class="ident">Framed</span><span class="op">&lt;</span><span class="ident">T</span>, <span class="ident">Codec</span><span class="op">&gt;</span>)) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span>::<span class="ident">Future</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-                <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="string">&quot;upgrade&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;websocket&quot;</span>);
+                <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+                <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
+                <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="string">&quot;upgrade&quot;</span>).<span class="ident">unwrap</span>(), <span class="string">&quot;websocket&quot;</span>);
                 <span class="ident">ready</span>(<span class="prelude-val">Ok</span>(()))
             }
         }
@@ -2661,13 +2663,13 @@
                 &quot;</span>,
             );
 
-            <span class="ident">actix_rt</span>::<span class="macro">pin</span><span class="macro">!</span>(<span class="ident">h1</span>);
+            <span class="ident">actix_rt</span>::<span class="macro">pin!</span>(<span class="ident">h1</span>);
 
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>());
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">matches</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Upgrade</span>(<span class="kw">_</span>)));
+            <span class="macro">assert!</span>(<span class="ident">h1</span>.<span class="ident">as_mut</span>().<span class="ident">poll</span>(<span class="ident">cx</span>).<span class="ident">is_ready</span>());
+            <span class="macro">assert!</span>(<span class="macro">matches!</span>(<span class="kw-2">&amp;</span><span class="ident">h1</span>.<span class="ident">inner</span>, <span class="ident">DispatcherState</span>::<span class="ident">Upgrade</span>(<span class="kw">_</span>)));
 
             <span class="comment">// polls: manual shutdown</span>
-            <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">2</span>);
+            <span class="macro">assert_eq!</span>(<span class="ident">h1</span>.<span class="ident">poll_count</span>, <span class="number">2</span>);
         })
         .<span class="kw">await</span>;
     }

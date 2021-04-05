@@ -826,6 +826,7 @@
     };
 
     <span class="kw">use</span> <span class="ident">actix_service</span>::<span class="ident">ServiceFactory</span>;
+    <span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::<span class="ident">ok</span>;
     <span class="kw">use</span> <span class="ident">actix_web</span>::{
         <span class="ident">guard</span>,
         <span class="ident">http</span>::{
@@ -837,23 +838,22 @@
         <span class="ident">web</span>::{<span class="self">self</span>, <span class="ident">Bytes</span>},
         <span class="ident">App</span>, <span class="ident">HttpResponse</span>, <span class="ident">Responder</span>,
     };
-    <span class="kw">use</span> <span class="ident">futures_util</span>::<span class="ident">future</span>::<span class="ident">ok</span>;
 
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_file_extension_to_mime</span>() {
         <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">file_extension_to_mime</span>(<span class="string">&quot;&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>);
 
         <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">file_extension_to_mime</span>(<span class="string">&quot;jpg&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">IMAGE_JPEG</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">IMAGE_JPEG</span>);
 
         <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">file_extension_to_mime</span>(<span class="string">&quot;invalid extension!!&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>);
 
         <span class="kw">let</span> <span class="ident">m</span> <span class="op">=</span> <span class="ident">file_extension_to_mime</span>(<span class="string">&quot;&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">m</span>, <span class="ident">mime</span>::<span class="ident">APPLICATION_OCTET_STREAM</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -865,7 +865,7 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">IF_MODIFIED_SINCE</span>, <span class="ident">since</span>))
             .<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_MODIFIED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_MODIFIED</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -877,7 +877,7 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">IF_MODIFIED_SINCE</span>, <span class="ident">since</span>))
             .<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_MODIFIED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_MODIFIED</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -890,7 +890,7 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">IF_MODIFIED_SINCE</span>, <span class="ident">since</span>))
             .<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_ne</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_MODIFIED</span>);
+        <span class="macro">assert_ne!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_MODIFIED</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -902,7 +902,7 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">IF_UNMODIFIED_SINCE</span>, <span class="ident">since</span>))
             .<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -914,12 +914,12 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">IF_UNMODIFIED_SINCE</span>, <span class="ident">since</span>))
             .<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PRECONDITION_FAILED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PRECONDITION_FAILED</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_named_file_text</span>() {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;test--&quot;</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;test--&quot;</span>).<span class="ident">is_err</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">unwrap</span>();
         {
             <span class="ident">file</span>.<span class="ident">file</span>();
@@ -931,11 +931,11 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;text/x-toml&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;Cargo.toml\&quot;&quot;</span>
         );
@@ -943,7 +943,7 @@
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_named_file_content_disposition</span>() {
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;test--&quot;</span>).<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;test--&quot;</span>).<span class="ident">is_err</span>());
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">unwrap</span>();
         {
             <span class="ident">file</span>.<span class="ident">file</span>();
@@ -955,7 +955,7 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;Cargo.toml\&quot;&quot;</span>
         );
@@ -965,7 +965,7 @@
             .<span class="ident">disable_content_disposition</span>();
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">is_none</span>());
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -982,11 +982,11 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;text/x-toml&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;貨物.toml\&quot;; filename*=UTF-8&#39;&#39;%E8%B2%A8%E7%89%A9.toml&quot;</span>
         );
@@ -1007,11 +1007,11 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;text/xml&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;Cargo.toml\&quot;&quot;</span>
         );
@@ -1030,11 +1030,11 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;image/png&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;test.png\&quot;&quot;</span>
         );
@@ -1044,7 +1044,7 @@
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_named_file_image_attachment</span>() {
         <span class="kw">let</span> <span class="ident">cd</span> <span class="op">=</span> <span class="ident">ContentDisposition</span> {
             <span class="ident">disposition</span>: <span class="ident">DispositionType</span>::<span class="ident">Attachment</span>,
-            <span class="ident">parameters</span>: <span class="macro">vec</span><span class="macro">!</span>[<span class="ident">DispositionParam</span>::<span class="ident">Filename</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test.png&quot;</span>))],
+            <span class="ident">parameters</span>: <span class="macro">vec!</span>[<span class="ident">DispositionParam</span>::<span class="ident">Filename</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;test.png&quot;</span>))],
         };
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;tests/test.png&quot;</span>)
             .<span class="ident">unwrap</span>()
@@ -1059,11 +1059,11 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;image/png&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;attachment; filename=\&quot;test.png\&quot;&quot;</span>
         );
@@ -1082,11 +1082,11 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;application/octet-stream&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;attachment; filename=\&quot;test.binary\&quot;&quot;</span>
         );
@@ -1107,15 +1107,15 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;text/x-toml&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;Cargo.toml\&quot;&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1135,7 +1135,7 @@
 
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>().<span class="ident">uri</span>(<span class="string">&quot;/&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">request</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">content_disposition</span> <span class="op">=</span> <span class="ident">response</span>
             .<span class="ident">headers</span>()
@@ -1144,7 +1144,7 @@
         <span class="kw">let</span> <span class="ident">content_disposition</span> <span class="op">=</span> <span class="ident">content_disposition</span>
             .<span class="ident">to_str</span>()
             .<span class="ident">expect</span>(<span class="string">&quot;Convert CONTENT_DISPOSITION to str&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_disposition</span>, <span class="string">&quot;attachment; filename=\&quot;Cargo.toml\&quot;&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_disposition</span>, <span class="string">&quot;attachment; filename=\&quot;Cargo.toml\&quot;&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1160,7 +1160,7 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">RANGE</span>, <span class="string">&quot;bytes=10-20&quot;</span>))
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">request</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PARTIAL_CONTENT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">PARTIAL_CONTENT</span>);
 
         <span class="comment">// Invalid range header</span>
         <span class="kw">let</span> <span class="ident">request</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>()
@@ -1169,12 +1169,12 @@
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">request</span>).<span class="kw">await</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">RANGE_NOT_SATISFIABLE</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">RANGE_NOT_SATISFIABLE</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_named_file_content_range_headers</span>() {
-        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">start</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>)));
+        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">actix_test</span>::<span class="ident">start</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>)));
 
         <span class="comment">// Valid range header</span>
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">srv</span>
@@ -1184,7 +1184,7 @@
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">content_range</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_RANGE</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_range</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;bytes 10-20/100&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_range</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;bytes 10-20/100&quot;</span>);
 
         <span class="comment">// Invalid range header</span>
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">srv</span>
@@ -1194,12 +1194,12 @@
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">content_range</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_RANGE</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_range</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;bytes */100&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_range</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;bytes */100&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_named_file_content_length_headers</span>() {
-        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">start</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>)));
+        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">actix_test</span>::<span class="ident">start</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>)));
 
         <span class="comment">// Valid range header</span>
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">srv</span>
@@ -1209,7 +1209,7 @@
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">content_length</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_LENGTH</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_length</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;11&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_length</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;11&quot;</span>);
 
         <span class="comment">// Valid range header, starting from 0</span>
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">srv</span>
@@ -1219,26 +1219,26 @@
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">content_length</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_LENGTH</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_length</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;21&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_length</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;21&quot;</span>);
 
         <span class="comment">// Without range header</span>
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">get</span>(<span class="string">&quot;/tests/test.binary&quot;</span>).<span class="ident">send</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">content_length</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_LENGTH</span>).<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_length</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;100&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_length</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>(), <span class="string">&quot;100&quot;</span>);
 
         <span class="comment">// Should be no transfer-encoding</span>
         <span class="kw">let</span> <span class="ident">transfer_encoding</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">TRANSFER_ENCODING</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">transfer_encoding</span>.<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">transfer_encoding</span>.<span class="ident">is_none</span>());
 
         <span class="comment">// Check file contents</span>
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">response</span>.<span class="ident">body</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">web</span>::<span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="ident">fs</span>::<span class="ident">read</span>(<span class="string">&quot;tests/test.binary&quot;</span>).<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
     <span class="kw">async</span> <span class="kw">fn</span> <span class="ident">test_head_content_length_headers</span>() {
-        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">start</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>)));
+        <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">actix_test</span>::<span class="ident">start</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>)));
 
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">srv</span>.<span class="ident">head</span>(<span class="string">&quot;/tests/test.binary&quot;</span>).<span class="ident">send</span>().<span class="kw">await</span>.<span class="ident">unwrap</span>();
 
@@ -1249,7 +1249,7 @@
             .<span class="ident">to_str</span>()
             .<span class="ident">unwrap</span>();
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">content_length</span>, <span class="string">&quot;100&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">content_length</span>, <span class="string">&quot;100&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1262,11 +1262,11 @@
             .<span class="ident">uri</span>(<span class="string">&quot;/tests/test%20space.binary&quot;</span>)
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">response</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">request</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">response</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">read_body</span>(<span class="ident">response</span>).<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">web</span>::<span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="ident">fs</span>::<span class="ident">read</span>(<span class="string">&quot;tests/test space.binary&quot;</span>).<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1279,7 +1279,7 @@
             .<span class="ident">to_request</span>();
 
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">METHOD_NOT_ALLOWED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">METHOD_NOT_ALLOWED</span>);
 
         <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">init_service</span>(<span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>))).<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
@@ -1287,7 +1287,7 @@
             .<span class="ident">uri</span>(<span class="string">&quot;/Cargo.toml&quot;</span>)
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">METHOD_NOT_ALLOWED</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">METHOD_NOT_ALLOWED</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1303,7 +1303,7 @@
             .<span class="ident">to_request</span>();
 
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1322,8 +1322,8 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">ACCEPT_ENCODING</span>, <span class="string">&quot;gzip&quot;</span>))
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">request</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header</span>::<span class="ident">CONTENT_ENCODING</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">res</span>.<span class="ident">headers</span>().<span class="ident">contains_key</span>(<span class="ident">header</span>::<span class="ident">CONTENT_ENCODING</span>));
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1342,8 +1342,8 @@
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">ACCEPT_ENCODING</span>, <span class="string">&quot;gzip&quot;</span>))
             .<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">request</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">res</span>.<span class="ident">headers</span>()
                 .<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_ENCODING</span>)
                 .<span class="ident">unwrap</span>()
@@ -1358,7 +1358,7 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">method</span>(<span class="ident">Method</span>::<span class="ident">GET</span>).<span class="ident">to_http_request</span>();
         <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">NamedFile</span>::<span class="ident">open</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">file</span>.<span class="ident">respond_to</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>).<span class="kw">await</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1369,26 +1369,26 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/missing&quot;</span>).<span class="ident">to_request</span>();
 
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
 
         <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">init_service</span>(<span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>))).<span class="kw">await</span>;
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
 
         <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span>
             <span class="ident">test</span>::<span class="ident">init_service</span>(<span class="ident">App</span>::<span class="ident">new</span>().<span class="ident">service</span>(<span class="ident">Files</span>::<span class="ident">new</span>(<span class="string">&quot;/&quot;</span>, <span class="string">&quot;.&quot;</span>).<span class="ident">show_files_listing</span>()))
                 .<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/tests&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;text/html; charset=utf-8&quot;</span>
         );
 
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">read_body</span>(<span class="ident">resp</span>).<span class="kw">await</span>;
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="macro">format</span><span class="macro">!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">bytes</span>).<span class="ident">contains</span>(<span class="string">&quot;/tests/test.png&quot;</span>));
+        <span class="macro">assert!</span>(<span class="macro">format!</span>(<span class="string">&quot;{:?}&quot;</span>, <span class="ident">bytes</span>).<span class="ident">contains</span>(<span class="string">&quot;/tests/test.png&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1400,7 +1400,7 @@
         .<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/tests&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
 
         <span class="comment">// should redirect if index present</span>
         <span class="kw">let</span> <span class="ident">srv</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">init_service</span>(
@@ -1413,12 +1413,12 @@
         .<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/tests&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">FOUND</span>);
 
         <span class="comment">// should not redirect if the path is wrong</span>
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/not_existing&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1428,7 +1428,7 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/&quot;</span>).<span class="ident">to_srv_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">service</span>, <span class="ident">req</span>).<span class="kw">await</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1443,9 +1443,9 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">with_uri</span>(<span class="string">&quot;/missing&quot;</span>).<span class="ident">to_srv_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">st</span>, <span class="ident">req</span>).<span class="kw">await</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">read_body</span>(<span class="ident">resp</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bytes</span>, <span class="ident">web</span>::<span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;default content&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">bytes</span>, <span class="ident">web</span>::<span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;default content&quot;</span>));
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1459,12 +1459,12 @@
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>().<span class="ident">uri</span>(<span class="string">&quot;/src&quot;</span>).<span class="ident">to_srv_request</span>();
         <span class="kw">let</span> <span class="ident">resp</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">service</span>, <span class="ident">req</span>).<span class="kw">await</span>;
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">resp</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;text/x-rust&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">resp</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="ident">header</span>::<span class="ident">CONTENT_DISPOSITION</span>).<span class="ident">unwrap</span>(),
             <span class="string">&quot;inline; filename=\&quot;lib.rs\&quot;&quot;</span>
         );
@@ -1479,29 +1479,29 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>().<span class="ident">uri</span>(<span class="string">&quot;/test&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">read_body</span>(<span class="ident">res</span>).<span class="kw">await</span>;
 
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="ident">fs</span>::<span class="ident">read</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>().<span class="ident">uri</span>(<span class="string">&quot;/test/&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
 
         <span class="kw">let</span> <span class="ident">bytes</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">read_body</span>(<span class="ident">res</span>).<span class="kw">await</span>;
         <span class="kw">let</span> <span class="ident">data</span> <span class="op">=</span> <span class="ident">Bytes</span>::<span class="ident">from</span>(<span class="ident">fs</span>::<span class="ident">read</span>(<span class="string">&quot;Cargo.toml&quot;</span>).<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">bytes</span>, <span class="ident">data</span>);
 
         <span class="comment">// nonexistent index file</span>
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>().<span class="ident">uri</span>(<span class="string">&quot;/test/unknown&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>().<span class="ident">uri</span>(<span class="string">&quot;/test/unknown/&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">NOT_FOUND</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -1513,7 +1513,7 @@
 
         <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">get</span>().<span class="ident">uri</span>(<span class="string">&quot;/test/%43argo.toml&quot;</span>).<span class="ident">to_request</span>();
         <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="ident">test</span>::<span class="ident">call_service</span>(<span class="kw-2">&amp;</span><span class="ident">srv</span>, <span class="ident">req</span>).<span class="kw">await</span>;
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">res</span>.<span class="ident">status</span>(), <span class="ident">StatusCode</span>::<span class="ident">OK</span>);
     }
 }
 </pre></div>

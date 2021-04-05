@@ -415,8 +415,6 @@
 <span id="414">414</span>
 <span id="415">415</span>
 <span id="416">416</span>
-<span id="417">417</span>
-<span id="418">418</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">//! Request extractors</span>
 
@@ -426,10 +424,8 @@
     <span class="ident">task</span>::{<span class="ident">Context</span>, <span class="ident">Poll</span>},
 };
 
-<span class="kw">use</span> <span class="ident">futures_util</span>::{
-    <span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>},
-    <span class="ident">ready</span>,
-};
+<span class="kw">use</span> <span class="ident">actix_utils</span>::<span class="ident">future</span>::{<span class="ident">ready</span>, <span class="ident">Ready</span>};
+<span class="kw">use</span> <span class="ident">futures_core</span>::<span class="ident">ready</span>;
 
 <span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">dev</span>::<span class="ident">Payload</span>, <span class="ident">Error</span>, <span class="ident">HttpRequest</span>};
 
@@ -546,11 +542,11 @@
 
     <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">this</span>.<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready!</span>(<span class="ident">this</span>.<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
         <span class="kw">match</span> <span class="ident">res</span> {
             <span class="prelude-val">Ok</span>(<span class="ident">t</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">t</span>))),
             <span class="prelude-val">Err</span>(<span class="ident">e</span>) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="ident">log</span>::<span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;Error for Option&lt;T&gt; extractor: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>());
+                <span class="ident">log</span>::<span class="macro">debug!</span>(<span class="string">&quot;Error for Option&lt;T&gt; extractor: {}&quot;</span>, <span class="ident">e</span>.<span class="ident">into</span>());
                 <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>))
             }
         }
@@ -635,7 +631,7 @@
 
     <span class="kw">fn</span> <span class="ident">poll</span>(<span class="self">self</span>: <span class="ident">Pin</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">Self</span><span class="op">&gt;</span>, <span class="ident">cx</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Context</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Output</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">this</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">project</span>();
-        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready</span><span class="macro">!</span>(<span class="ident">this</span>.<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
+        <span class="kw">let</span> <span class="ident">res</span> <span class="op">=</span> <span class="macro">ready!</span>(<span class="ident">this</span>.<span class="ident">fut</span>.<span class="ident">poll</span>(<span class="ident">cx</span>));
         <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">res</span>))
     }
 }
@@ -651,7 +647,7 @@
     }
 }
 
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">tuple_from_req</span> ({<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fut_type</span>:<span class="ident">ident</span>, $((<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>)),<span class="op">+</span>} <span class="op">=</span><span class="op">&gt;</span> {
+<span class="macro">macro_rules!</span> <span class="ident">tuple_from_req</span> ({<span class="macro-nonterminal">$</span><span class="macro-nonterminal">fut_type</span>:<span class="ident">ident</span>, $((<span class="macro-nonterminal">$</span><span class="macro-nonterminal">n</span>:<span class="ident">tt</span>, <span class="macro-nonterminal">$</span><span class="macro-nonterminal">T</span>:<span class="ident">ident</span>)),<span class="op">+</span>} <span class="op">=</span><span class="op">&gt;</span> {
 
     <span class="comment">// This module is a trick to get around the inability of</span>
     <span class="comment">// `macro_rules!` macros to make new idents. We want to make</span>
@@ -738,16 +734,16 @@
 <span class="kw">mod</span> <span class="ident">m</span> {
     <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
 
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest1</span>, (<span class="number">0</span>, <span class="ident">A</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest2</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest3</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest4</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest5</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest6</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest7</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest8</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>), (<span class="number">7</span>, <span class="ident">H</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest9</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>), (<span class="number">7</span>, <span class="ident">H</span>), (<span class="number">8</span>, <span class="ident">I</span>));
-    <span class="macro">tuple_from_req</span><span class="macro">!</span>(<span class="ident">TupleFromRequest10</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>), (<span class="number">7</span>, <span class="ident">H</span>), (<span class="number">8</span>, <span class="ident">I</span>), (<span class="number">9</span>, <span class="ident">J</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest1</span>, (<span class="number">0</span>, <span class="ident">A</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest2</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest3</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest4</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest5</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest6</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest7</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest8</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>), (<span class="number">7</span>, <span class="ident">H</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest9</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>), (<span class="number">7</span>, <span class="ident">H</span>), (<span class="number">8</span>, <span class="ident">I</span>));
+    <span class="macro">tuple_from_req!</span>(<span class="ident">TupleFromRequest10</span>, (<span class="number">0</span>, <span class="ident">A</span>), (<span class="number">1</span>, <span class="ident">B</span>), (<span class="number">2</span>, <span class="ident">C</span>), (<span class="number">3</span>, <span class="ident">D</span>), (<span class="number">4</span>, <span class="ident">E</span>), (<span class="number">5</span>, <span class="ident">F</span>), (<span class="number">6</span>, <span class="ident">G</span>), (<span class="number">7</span>, <span class="ident">H</span>), (<span class="number">8</span>, <span class="ident">I</span>), (<span class="number">9</span>, <span class="ident">J</span>));
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
@@ -775,7 +771,7 @@
         <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="prelude-ty">Option</span>::<span class="op">&lt;</span><span class="ident">Form</span><span class="op">&lt;</span><span class="ident">Info</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>, <span class="prelude-val">None</span>);
 
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw-2">mut</span> <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">TestRequest</span>::<span class="ident">default</span>()
             .<span class="ident">insert_header</span>((<span class="ident">header</span>::<span class="ident">CONTENT_TYPE</span>, <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>))
@@ -786,7 +782,7 @@
         <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="prelude-ty">Option</span>::<span class="op">&lt;</span><span class="ident">Form</span><span class="op">&lt;</span><span class="ident">Info</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">r</span>,
             <span class="prelude-val">Some</span>(<span class="ident">Form</span>(<span class="ident">Info</span> {
                 <span class="ident">hello</span>: <span class="string">&quot;world&quot;</span>.<span class="ident">into</span>()
@@ -802,7 +798,7 @@
         <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="prelude-ty">Option</span>::<span class="op">&lt;</span><span class="ident">Form</span><span class="op">&lt;</span><span class="ident">Info</span><span class="op">&gt;</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">r</span>, <span class="prelude-val">None</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">r</span>, <span class="prelude-val">None</span>);
     }
 
     <span class="attribute">#[<span class="ident">actix_rt</span>::<span class="ident">test</span>]</span>
@@ -817,7 +813,7 @@
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>()
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">r</span>,
             <span class="ident">Form</span>(<span class="ident">Info</span> {
                 <span class="ident">hello</span>: <span class="string">&quot;world&quot;</span>.<span class="ident">into</span>()
@@ -833,7 +829,7 @@
         <span class="kw">let</span> <span class="ident">r</span> <span class="op">=</span> <span class="prelude-ty">Result</span>::<span class="op">&lt;</span><span class="ident">Form</span><span class="op">&lt;</span><span class="ident">Info</span><span class="op">&gt;</span>, <span class="ident">Error</span><span class="op">&gt;</span>::<span class="ident">from_request</span>(<span class="kw-2">&amp;</span><span class="ident">req</span>, <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">pl</span>)
             .<span class="kw">await</span>
             .<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">r</span>.<span class="ident">is_err</span>());
+        <span class="macro">assert!</span>(<span class="ident">r</span>.<span class="ident">is_err</span>());
     }
 }
 </pre></div>

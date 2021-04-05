@@ -240,7 +240,7 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">error</span>::{<span class="ident">ParseError</span>, <span class="ident">PayloadError</span>};
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">message</span>::{<span class="ident">ConnectionType</span>, <span class="ident">RequestHeadType</span>, <span class="ident">ResponseHead</span>};
 
-<span class="macro">bitflags</span><span class="macro">!</span> {
+<span class="macro">bitflags!</span> {
     <span class="kw">struct</span> <span class="ident">Flags</span>: <span class="ident">u8</span> {
         <span class="kw">const</span> <span class="ident">HEAD</span>              <span class="op">=</span> <span class="number">0b0000_0001</span>;
         <span class="kw">const</span> <span class="ident">KEEPALIVE_ENABLED</span> <span class="op">=</span> <span class="number">0b0000_1000</span>;
@@ -344,7 +344,7 @@
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">ParseError</span>;
 
     <span class="kw">fn</span> <span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="macro">debug_assert</span><span class="macro">!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">payload</span>.<span class="ident">is_some</span>(), <span class="string">&quot;Payload decoder is set&quot;</span>);
+        <span class="macro">debug_assert!</span>(<span class="op">!</span><span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">payload</span>.<span class="ident">is_some</span>(), <span class="string">&quot;Payload decoder is set&quot;</span>);
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>((<span class="ident">req</span>, <span class="ident">payload</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">decoder</span>.<span class="ident">decode</span>(<span class="ident">src</span>)<span class="question-mark">?</span> {
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">ctype</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">ctype</span>() {
@@ -381,7 +381,7 @@
     <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">PayloadError</span>;
 
     <span class="kw">fn</span> <span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="self">Self</span>::<span class="ident">Item</span><span class="op">&gt;</span>, <span class="self">Self</span>::<span class="ident">Error</span><span class="op">&gt;</span> {
-        <span class="macro">debug_assert</span><span class="macro">!</span>(
+        <span class="macro">debug_assert!</span>(
             <span class="self">self</span>.<span class="ident">inner</span>.<span class="ident">payload</span>.<span class="ident">is_some</span>(),
             <span class="string">&quot;Payload decoder is not specified&quot;</span>
         );

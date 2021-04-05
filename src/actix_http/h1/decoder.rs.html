@@ -1339,11 +1339,11 @@
                                     <span class="ident">content_length</span> <span class="op">=</span> <span class="prelude-val">Some</span>(<span class="ident">len</span>);
                                 }
                             } <span class="kw">else</span> {
-                                <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;illegal Content-Length: {:?}&quot;</span>, <span class="ident">s</span>);
+                                <span class="macro">debug!</span>(<span class="string">&quot;illegal Content-Length: {:?}&quot;</span>, <span class="ident">s</span>);
                                 <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError</span>::<span class="ident">Header</span>);
                             }
                         } <span class="kw">else</span> {
-                            <span class="macro">debug</span><span class="macro">!</span>(<span class="string">&quot;illegal Content-Length: {:?}&quot;</span>, <span class="ident">value</span>);
+                            <span class="macro">debug!</span>(<span class="string">&quot;illegal Content-Length: {:?}&quot;</span>, <span class="ident">value</span>);
                             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError</span>::<span class="ident">Header</span>);
                         }
                     }
@@ -1452,7 +1452,7 @@
                 }
                 <span class="ident">httparse</span>::<span class="ident">Status</span>::<span class="ident">Partial</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="kw">if</span> <span class="ident">src</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">MAX_BUFFER_SIZE</span> {
-                        <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;MAX_BUFFER_SIZE unprocessed data reached, closing&quot;</span>);
+                        <span class="macro">trace!</span>(<span class="string">&quot;MAX_BUFFER_SIZE unprocessed data reached, closing&quot;</span>);
                         <span class="prelude-val">Err</span>(<span class="ident">ParseError</span>::<span class="ident">TooLarge</span>)
                     } <span class="kw">else</span> {
                         <span class="comment">// Return None to notify more read are needed for parsing request</span>
@@ -1527,7 +1527,7 @@
                 }
                 <span class="ident">httparse</span>::<span class="ident">Status</span>::<span class="ident">Partial</span> <span class="op">=</span><span class="op">&gt;</span> {
                     <span class="kw">return</span> <span class="kw">if</span> <span class="ident">src</span>.<span class="ident">len</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="ident">MAX_BUFFER_SIZE</span> {
-                        <span class="macro">error</span><span class="macro">!</span>(<span class="string">&quot;MAX_BUFFER_SIZE unprocessed data reached, closing&quot;</span>);
+                        <span class="macro">error!</span>(<span class="string">&quot;MAX_BUFFER_SIZE unprocessed data reached, closing&quot;</span>);
                         <span class="prelude-val">Err</span>(<span class="ident">ParseError</span>::<span class="ident">TooLarge</span>)
                     } <span class="kw">else</span> {
                         <span class="prelude-val">Ok</span>(<span class="prelude-val">None</span>)
@@ -1691,7 +1691,7 @@
                         <span class="ident">buf</span> <span class="op">=</span> <span class="ident">src</span>.<span class="ident">split_to</span>(<span class="kw-2">*</span><span class="ident">remaining</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">freeze</span>();
                         <span class="kw-2">*</span><span class="ident">remaining</span> <span class="op">=</span> <span class="number">0</span>;
                     };
-                    <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Length read: {}&quot;</span>, <span class="ident">buf</span>.<span class="ident">len</span>());
+                    <span class="macro">trace!</span>(<span class="string">&quot;Length read: {}&quot;</span>, <span class="ident">buf</span>.<span class="ident">len</span>());
                     <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">PayloadItem</span>::<span class="ident">Chunk</span>(<span class="ident">buf</span>)))
                 }
             }
@@ -1705,7 +1705,7 @@
                         <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
                     };
                     <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">state</span> <span class="op">=</span><span class="op">=</span> <span class="ident">ChunkedState</span>::<span class="ident">End</span> {
-                        <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;End of chunked stream&quot;</span>);
+                        <span class="macro">trace!</span>(<span class="string">&quot;End of chunked stream&quot;</span>);
                         <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>(<span class="ident">PayloadItem</span>::<span class="ident">Eof</span>));
                     }
                     <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">buf</span>) <span class="op">=</span> <span class="ident">buf</span> {
@@ -1727,7 +1727,7 @@
     }
 }
 
-<span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">byte</span> (
+<span class="macro">macro_rules!</span> <span class="ident">byte</span> (
     (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">rdr</span>:<span class="ident">ident</span>) <span class="op">=</span><span class="op">&gt;</span> ({
         <span class="kw">if</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rdr</span>.<span class="ident">len</span>() <span class="op">&gt;</span> <span class="number">0</span> {
             <span class="kw">let</span> <span class="ident">b</span> <span class="op">=</span> <span class="macro-nonterminal">$</span><span class="macro-nonterminal">rdr</span>[<span class="number">0</span>];
@@ -1766,7 +1766,7 @@
         <span class="ident">size</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u64</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="ident">radix</span> <span class="op">=</span> <span class="number">16</span>;
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="ident">b</span> @ <span class="string">b&#39;0&#39;</span>..<span class="op">=</span><span class="string">b&#39;9&#39;</span> <span class="op">=</span><span class="op">&gt;</span> {
                 <span class="kw-2">*</span><span class="ident">size</span> <span class="kw-2">*</span><span class="op">=</span> <span class="ident">radix</span>;
                 <span class="kw-2">*</span><span class="ident">size</span> <span class="op">+</span><span class="op">=</span> <span class="ident">u64</span>::<span class="ident">from</span>(<span class="ident">b</span> <span class="op">-</span> <span class="string">b&#39;0&#39;</span>);
@@ -1793,8 +1793,8 @@
     }
 
     <span class="kw">fn</span> <span class="ident">read_size_lws</span>(<span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;read_size_lws&quot;</span>);
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="macro">trace!</span>(<span class="string">&quot;read_size_lws&quot;</span>);
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="comment">// LWS can follow the chunk size, but no more digits can come</span>
             <span class="string">b&#39;\t&#39;</span> <span class="op">|</span> <span class="string">b&#39; &#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">SizeLws</span>)),
             <span class="string">b&#39;;&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">Extension</span>)),
@@ -1806,7 +1806,7 @@
         }
     }
     <span class="kw">fn</span> <span class="ident">read_extension</span>(<span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="string">b&#39;\r&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">SizeLf</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">Extension</span>)), <span class="comment">// no supported extensions</span>
         }
@@ -1815,7 +1815,7 @@
         <span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>,
         <span class="ident">size</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u64</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="string">b&#39;\n&#39;</span> <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">size</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">Body</span>)),
             <span class="string">b&#39;\n&#39;</span> <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">size</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">EndCr</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
@@ -1830,7 +1830,7 @@
         <span class="ident">rem</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">u64</span>,
         <span class="ident">buf</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">Bytes</span><span class="op">&gt;</span>,
     ) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="macro">trace</span><span class="macro">!</span>(<span class="string">&quot;Chunked read, remaining={:?}&quot;</span>, <span class="ident">rem</span>);
+        <span class="macro">trace!</span>(<span class="string">&quot;Chunked read, remaining={:?}&quot;</span>, <span class="ident">rem</span>);
 
         <span class="kw">let</span> <span class="ident">len</span> <span class="op">=</span> <span class="ident">rdr</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>;
         <span class="kw">if</span> <span class="ident">len</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
@@ -1854,7 +1854,7 @@
     }
 
     <span class="kw">fn</span> <span class="ident">read_body_cr</span>(<span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="string">b&#39;\r&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">BodyLf</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
@@ -1863,7 +1863,7 @@
         }
     }
     <span class="kw">fn</span> <span class="ident">read_body_lf</span>(<span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="string">b&#39;\n&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">Size</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
@@ -1872,7 +1872,7 @@
         }
     }
     <span class="kw">fn</span> <span class="ident">read_end_cr</span>(<span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="string">b&#39;\r&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">EndLf</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
@@ -1881,7 +1881,7 @@
         }
     }
     <span class="kw">fn</span> <span class="ident">read_end_lf</span>(<span class="ident">rdr</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">BytesMut</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Poll</span><span class="op">&lt;</span><span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ChunkedState</span>, <span class="ident">io</span>::<span class="ident">Error</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="macro">byte</span><span class="macro">!</span>(<span class="ident">rdr</span>) {
+        <span class="kw">match</span> <span class="macro">byte!</span>(<span class="ident">rdr</span>) {
             <span class="string">b&#39;\n&#39;</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Ok</span>(<span class="ident">ChunkedState</span>::<span class="ident">End</span>)),
             <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">Poll</span>::<span class="ident">Ready</span>(<span class="prelude-val">Err</span>(<span class="ident">io</span>::<span class="ident">Error</span>::<span class="ident">new</span>(
                 <span class="ident">io</span>::<span class="ident">ErrorKind</span>::<span class="ident">InvalidInput</span>,
@@ -1905,12 +1905,12 @@
         <span class="kw">fn</span> <span class="ident">unwrap</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">PayloadDecoder</span> {
             <span class="kw">match</span> <span class="self">self</span> {
                 <span class="ident">PayloadType</span>::<span class="ident">Payload</span>(<span class="ident">pl</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">pl</span>,
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(),
             }
         }
 
         <span class="kw">fn</span> <span class="ident">is_unhandled</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-            <span class="macro">matches</span><span class="macro">!</span>(<span class="self">self</span>, <span class="ident">PayloadType</span>::<span class="ident">Stream</span>(<span class="kw">_</span>))
+            <span class="macro">matches!</span>(<span class="self">self</span>, <span class="ident">PayloadType</span>::<span class="ident">Stream</span>(<span class="kw">_</span>))
         }
     }
 
@@ -1918,32 +1918,32 @@
         <span class="kw">fn</span> <span class="ident">chunk</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Bytes</span> {
             <span class="kw">match</span> <span class="self">self</span> {
                 <span class="ident">PayloadItem</span>::<span class="ident">Chunk</span>(<span class="ident">chunk</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">chunk</span>,
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;error&quot;</span>),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">panic!</span>(<span class="string">&quot;error&quot;</span>),
             }
         }
         <span class="kw">fn</span> <span class="ident">eof</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">bool</span> {
-            <span class="macro">matches</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="ident">PayloadItem</span>::<span class="ident">Eof</span>)
+            <span class="macro">matches!</span>(<span class="kw-2">*</span><span class="self">self</span>, <span class="ident">PayloadItem</span>::<span class="ident">Eof</span>)
         }
     }
 
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">parse_ready</span> {
+    <span class="macro">macro_rules!</span> <span class="ident">parse_ready</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
             <span class="kw">match</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>().<span class="ident">decode</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>) {
                 <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">msg</span>, <span class="kw">_</span>))) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">msg</span>,
-                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Eof during parsing http request&quot;</span>),
-                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Error during parsing http request: {:?}&quot;</span>, <span class="ident">err</span>),
+                <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;Eof during parsing http request&quot;</span>),
+                <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;Error during parsing http request: {:?}&quot;</span>, <span class="ident">err</span>),
             }
         }};
     }
 
-    <span class="macro">macro_rules</span><span class="macro">!</span> <span class="ident">expect_parse_err</span> {
+    <span class="macro">macro_rules!</span> <span class="ident">expect_parse_err</span> {
         (<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>:<span class="ident">expr</span>) <span class="op">=</span><span class="op">&gt;</span> {{
             <span class="kw">match</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>().<span class="ident">decode</span>(<span class="macro-nonterminal">$</span><span class="macro-nonterminal">e</span>) {
                 <span class="prelude-val">Err</span>(<span class="ident">err</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="kw">match</span> <span class="ident">err</span> {
-                    <span class="ident">ParseError</span>::<span class="ident">Io</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Parse error expected&quot;</span>),
+                    <span class="ident">ParseError</span>::<span class="ident">Io</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;Parse error expected&quot;</span>),
                     <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> {}
                 },
-                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Error expected&quot;</span>),
+                <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;Error expected&quot;</span>),
             }
         }};
     }
@@ -1955,11 +1955,11 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">match</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>) {
             <span class="prelude-val">Ok</span>(<span class="prelude-val">Some</span>((<span class="ident">req</span>, <span class="kw">_</span>))) <span class="op">=</span><span class="op">&gt;</span> {
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-                <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
+                <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
+                <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+                <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
             }
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Error during parsing http request&quot;</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="macro">unreachable!</span>(<span class="string">&quot;Error during parsing http request&quot;</span>),
         }
     }
 
@@ -1968,13 +1968,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;PUT /test HTTP/1&quot;</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;.1\r\n\r\n&quot;</span>);
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">PUT</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">PUT</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1983,9 +1983,9 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_10</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">POST</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test2&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_10</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">POST</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test2&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -1996,10 +1996,10 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">chunk</span>().<span class="ident">as_ref</span>(),
             <span class="string">b&quot;body&quot;</span>
         );
@@ -2013,10 +2013,10 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">chunk</span>().<span class="ident">as_ref</span>(),
             <span class="string">b&quot;body&quot;</span>
         );
@@ -2026,13 +2026,13 @@
     <span class="kw">fn</span> <span class="ident">test_parse_partial_eof</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;GET /test HTTP/1.1\r\n&quot;</span>);
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;\r\n&quot;</span>);
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2040,20 +2040,20 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;GET /test HTTP/1.1\r\n&quot;</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
-        <span class="macro">assert</span><span class="macro">!</span> { <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>() }
+        <span class="macro">assert!</span> { <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>() }
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;t&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span> { <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>() }
+        <span class="macro">assert!</span> { <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>() }
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;es&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span> { <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>() }
+        <span class="macro">assert!</span> { <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>() }
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;t: value\r\n\r\n&quot;</span>);
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">version</span>(), <span class="ident">Version</span>::<span class="ident">HTTP_11</span>);
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">GET</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;/test&quot;</span>);
+        <span class="macro">assert_eq!</span>(
             <span class="ident">req</span>.<span class="ident">headers</span>()
                 .<span class="ident">get</span>(<span class="ident">HeaderName</span>::<span class="ident">try_from</span>(<span class="string">&quot;test&quot;</span>).<span class="ident">unwrap</span>())
                 .<span class="ident">unwrap</span>()
@@ -2077,24 +2077,24 @@
             .<span class="ident">get_all</span>(<span class="ident">SET_COOKIE</span>)
             .<span class="ident">map</span>(<span class="op">|</span><span class="ident">v</span><span class="op">|</span> <span class="ident">v</span>.<span class="ident">to_str</span>().<span class="ident">unwrap</span>().<span class="ident">to_owned</span>())
             .<span class="ident">collect</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">val</span>[<span class="number">0</span>], <span class="string">&quot;c1=cookie1&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">val</span>[<span class="number">1</span>], <span class="string">&quot;c2=cookie2&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">val</span>[<span class="number">0</span>], <span class="string">&quot;c1=cookie1&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">val</span>[<span class="number">1</span>], <span class="string">&quot;c2=cookie2&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_conn_default_1_0</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;GET /test HTTP/1.0\r\n\r\n&quot;</span>);
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_conn_default_1_1</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;GET /test HTTP/1.1\r\n\r\n&quot;</span>);
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2103,17 +2103,17 @@
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              connection: close\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              connection: Close\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2123,9 +2123,9 @@
              connection: close\r\n\r\n&quot;</span>,
         );
 
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2134,17 +2134,17 @@
             <span class="string">&quot;GET /test HTTP/1.0\r\n\
              connection: keep-alive\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(
             <span class="string">&quot;GET /test HTTP/1.0\r\n\
              connection: Keep-Alive\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2153,9 +2153,9 @@
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              connection: keep-alive\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2164,9 +2164,9 @@
             <span class="string">&quot;GET /test HTTP/1.0\r\n\
              connection: other\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Close</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2175,9 +2175,9 @@
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              connection: other\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2187,20 +2187,20 @@
              upgrade: websockets\r\n\
              connection: upgrade\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Upgrade</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Upgrade</span>);
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              upgrade: Websockets\r\n\
              connection: Upgrade\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Upgrade</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Upgrade</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2209,9 +2209,9 @@
             <span class="string">&quot;CONNECT /test HTTP/1.1\r\n\
              content-type: text/plain\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2220,12 +2220,12 @@
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              transfer-encoding: chunked\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">chunked</span>() {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">val</span>);
+            <span class="macro">assert!</span>(<span class="ident">val</span>);
         } <span class="kw">else</span> {
-            <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Error&quot;</span>);
+            <span class="macro">unreachable!</span>(<span class="string">&quot;Error&quot;</span>);
         }
 
         <span class="comment">// intentional typo in &quot;chunked&quot;</span>
@@ -2233,12 +2233,12 @@
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              transfer-encoding: chnked\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
         <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">val</span>) <span class="op">=</span> <span class="ident">req</span>.<span class="ident">chunked</span>() {
-            <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">val</span>);
+            <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">val</span>);
         } <span class="kw">else</span> {
-            <span class="macro">unreachable</span><span class="macro">!</span>(<span class="string">&quot;Error&quot;</span>);
+            <span class="macro">unreachable!</span>(<span class="string">&quot;Error&quot;</span>);
         }
     }
 
@@ -2249,7 +2249,7 @@
              content-length: line\r\n\r\n&quot;</span>,
         );
 
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>)
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2259,7 +2259,7 @@
              content-length: -1\r\n\r\n&quot;</span>,
         );
 
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2269,7 +2269,7 @@
              test line\r\n\r\n&quot;</span>,
         );
 
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2279,13 +2279,13 @@
              test[]: line\r\n\r\n&quot;</span>,
         );
 
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_http_request_bad_status_line</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;getpath \r\n\r\n&quot;</span>);
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2298,9 +2298,9 @@
         );
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Upgrade</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">is_unhandled</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">Upgrade</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">is_unhandled</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2318,9 +2318,9 @@
         <span class="comment">//</span>
         <span class="comment">// The line below should be:</span>
         <span class="comment">// assert_eq!(req.head().connection_type(), ConnectionType::Upgrade);</span>
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="op">!</span><span class="ident">pl</span>.<span class="ident">is_unhandled</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">head</span>().<span class="ident">connection_type</span>(), <span class="ident">ConnectionType</span>::<span class="ident">KeepAlive</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">upgrade</span>());
+        <span class="macro">assert!</span>(<span class="op">!</span><span class="ident">pl</span>.<span class="ident">is_unhandled</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2329,9 +2329,9 @@
             <span class="string">&quot;GET /test HTTP/1.1\r\n\
              x-test: тест\r\n\r\n&quot;</span>,
         );
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">req</span>.<span class="ident">headers</span>().<span class="ident">get</span>(<span class="string">&quot;x-test&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_bytes</span>(),
             <span class="string">&quot;тест&quot;</span>.<span class="ident">as_bytes</span>()
         );
@@ -2340,23 +2340,23 @@
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_http_request_parser_two_slashes</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;GET //path HTTP/1.1\r\n\r\n&quot;</span>);
-        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="kw">let</span> <span class="ident">req</span> <span class="op">=</span> <span class="macro">parse_ready!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
 
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;//path&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">req</span>.<span class="ident">path</span>(), <span class="string">&quot;//path&quot;</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_http_request_parser_bad_method</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;!12%()+=~$ /get HTTP/1.1\r\n\r\n&quot;</span>);
 
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">test_http_request_parser_bad_version</span>() {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">buf</span> <span class="op">=</span> <span class="ident">BytesMut</span>::<span class="ident">from</span>(<span class="string">&quot;GET //get HT/11\r\n\r\n&quot;</span>);
 
-        <span class="macro">expect_parse_err</span><span class="macro">!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
+        <span class="macro">expect_parse_err!</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2368,18 +2368,18 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;4\r\ndata\r\n4\r\nline\r\n0\r\n\r\n&quot;</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">chunk</span>().<span class="ident">as_ref</span>(),
             <span class="string">b&quot;data&quot;</span>
         );
-        <span class="macro">assert_eq</span><span class="macro">!</span>(
+        <span class="macro">assert_eq!</span>(
             <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">chunk</span>().<span class="ident">as_ref</span>(),
             <span class="string">b&quot;line&quot;</span>
         );
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">eof</span>());
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">eof</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2391,7 +2391,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(
             <span class="string">b&quot;4\r\ndata\r\n4\r\nline\r\n0\r\n\r\n\
@@ -2400,16 +2400,16 @@
                 .<span class="ident">iter</span>(),
         );
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;data&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;data&quot;</span>);
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;line&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;line&quot;</span>);
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">eof</span>());
+        <span class="macro">assert!</span>(<span class="ident">msg</span>.<span class="ident">eof</span>());
 
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="kw">_</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">POST</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert_eq!</span>(<span class="kw-2">*</span><span class="ident">req</span>.<span class="ident">method</span>(), <span class="ident">Method</span>::<span class="ident">POST</span>);
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2422,27 +2422,27 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">req</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="ident">req</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;4\r\n1111\r\n&quot;</span>);
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;1111&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;1111&quot;</span>);
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;4\r\ndata\r&quot;</span>);
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;data&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;data&quot;</span>);
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;\n4&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;\r&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;\n&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;li&quot;</span>);
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;li&quot;</span>);
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;li&quot;</span>);
 
         <span class="comment">//trailers</span>
         <span class="comment">//buf.feed_data(&quot;test: test\r\n&quot;);</span>
@@ -2450,11 +2450,11 @@
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;ne\r\n0\r\n&quot;</span>);
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;ne&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
+        <span class="macro">assert_eq!</span>(<span class="ident">msg</span>.<span class="ident">chunk</span>().<span class="ident">as_ref</span>(), <span class="string">b&quot;ne&quot;</span>);
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">is_none</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;\r\n&quot;</span>);
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">eof</span>());
+        <span class="macro">assert!</span>(<span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">eof</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2467,15 +2467,15 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reader</span> <span class="op">=</span> <span class="ident">MessageDecoder</span>::<span class="op">&lt;</span><span class="ident">Request</span><span class="op">&gt;</span>::<span class="ident">default</span>();
         <span class="kw">let</span> (<span class="ident">msg</span>, <span class="ident">pl</span>) <span class="op">=</span> <span class="ident">reader</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
+        <span class="macro">assert!</span>(<span class="ident">msg</span>.<span class="ident">chunked</span>().<span class="ident">unwrap</span>());
 
         <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="string">b&quot;4;test\r\ndata\r\n4\r\nline\r\n0\r\n\r\n&quot;</span>); <span class="comment">// test: test\r\n\r\n&quot;)</span>
         <span class="kw">let</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">chunk</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">chunk</span>, <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;data&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">chunk</span>, <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;data&quot;</span>));
         <span class="kw">let</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>().<span class="ident">chunk</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">chunk</span>, <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;line&quot;</span>));
+        <span class="macro">assert_eq!</span>(<span class="ident">chunk</span>, <span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;line&quot;</span>));
         <span class="kw">let</span> <span class="ident">msg</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert</span><span class="macro">!</span>(<span class="ident">msg</span>.<span class="ident">eof</span>());
+        <span class="macro">assert!</span>(<span class="ident">msg</span>.<span class="ident">eof</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
@@ -2487,7 +2487,7 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pl</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">unwrap</span>();
 
         <span class="kw">let</span> <span class="ident">chunk</span> <span class="op">=</span> <span class="ident">pl</span>.<span class="ident">decode</span>(<span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">buf</span>).<span class="ident">unwrap</span>().<span class="ident">unwrap</span>();
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">chunk</span>, <span class="ident">PayloadItem</span>::<span class="ident">Chunk</span>(<span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;test data&quot;</span>)));
+        <span class="macro">assert_eq!</span>(<span class="ident">chunk</span>, <span class="ident">PayloadItem</span>::<span class="ident">Chunk</span>(<span class="ident">Bytes</span>::<span class="ident">from_static</span>(<span class="string">b&quot;test data&quot;</span>)));
     }
 }
 </pre></div>
